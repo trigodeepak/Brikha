@@ -3,19 +3,10 @@ package com.example.deepak.brikha;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.example.deepak.brikha.Model.BabyName;
 
@@ -24,19 +15,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import com.google.android.gms.ads.MobileAds;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
     final public static String SHARED_PREFS_FILE = "BrikhasharedPref";
     public static List<BabyName> babyNameList, mbabyNameList,fbabynameList,searchbabyNameList;
     public static Set<Integer> set;
-    AllGenderFragment Fragment1;
-    MaleFragment Fragment3;
-    FemaleFragment Fragment2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //todo apply admob have done sample admob
@@ -68,24 +53,14 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-//        ReverseList(babyNameList);
-
         setContentView(R.layout.activity_main);
-        Fragment1 = new AllGenderFragment();
-        Fragment2 = new FemaleFragment();
-        Fragment3 = new MaleFragment();
-        ViewPager viewPager =  findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).commit();
 
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
 
 //        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
-
-        Searching_in_List("Ab");
 
         try {
             new MainActivity.MyTask().execute(this);
@@ -102,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 //        menuInflater.inflate(R.menu.main_menu, menu);
 //        return true;
 //    }
-//  
+//
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle item selection
@@ -116,44 +91,6 @@ public class MainActivity extends AppCompatActivity {
 //                return super.onOptionsItemSelected(item);
 //        }
 //    }
-
-    // Add Fragments to Tabs
-    private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(Fragment1, "All");
-        adapter.addFragment(Fragment2, "Girl");
-        adapter.addFragment(Fragment3, "Boy");
-        viewPager.setAdapter(adapter);
-    }
-
-    static class Adapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public Adapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
 
 
 private class MyTask extends AsyncTask<Object, Void, String> {
@@ -180,8 +117,8 @@ private class MyTask extends AsyncTask<Object, Void, String> {
     protected void onPostExecute(String str) {
         Log.d("Result",str+" ");
         parseResult(str);
-        ViewPager viewPager =  findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+//        ViewPager viewPager =  findViewById(R.id.viewpager);
+//        setupViewPager(viewPager);
         }
 }
 
@@ -280,9 +217,9 @@ private class MyTask extends AsyncTask<Object, Void, String> {
     public void ReverseList(List<BabyName> babyNames){
         //Reversing list works
         Collections.reverse(babyNameList);
-        Fragment1 = new AllGenderFragment();
-        ViewPager viewPager =  findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+//        Fragment1 = new AllGenderFragment();
+//        ViewPager viewPager =  findViewById(R.id.viewpager);
+//        setupViewPager(viewPager);
 
     }
 }
