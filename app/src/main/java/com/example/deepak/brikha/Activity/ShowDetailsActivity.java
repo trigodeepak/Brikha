@@ -1,19 +1,19 @@
-package com.example.deepak.brikha;
+package com.example.deepak.brikha.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.deepak.brikha.Model.BabyName;
+import com.example.deepak.brikha.R;
 
-public class ShowDetailsName extends AppCompatActivity {
+public class ShowDetailsActivity extends AppCompatActivity {
     BabyName babyName;
     private int index;
 
@@ -80,6 +80,14 @@ public class ShowDetailsName extends AppCompatActivity {
         arabic.setText("الكتابة باللغة العربية : "+babyName.getArabic());
         syriac.setText(babyName.getSyriac());
         arabic_meaning.setText("المعنى : "+babyName.getArabicMeaning());
+        if (babyName.getIs_boy()){
+            name.setTextColor(Color.parseColor("#0a3daa"));
+            syriac.setTextColor(Color.parseColor("#0a3daa"));
+        }
+        else{
+            name.setTextColor(Color.parseColor("#ff26ce"));
+            syriac.setTextColor(Color.parseColor("#ff26ce"));
+        }
 
     }
 

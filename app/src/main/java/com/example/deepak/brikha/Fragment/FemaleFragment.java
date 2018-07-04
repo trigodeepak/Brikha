@@ -1,4 +1,4 @@
-package com.example.deepak.brikha;
+package com.example.deepak.brikha.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
+import com.example.deepak.brikha.Activity.MainActivity;
+import com.example.deepak.brikha.R;
+import com.google.android.gms.ads.AdView;
 
-public class MaleFragment extends Fragment {
+public class FemaleFragment extends Fragment {
+
     private RecyclerView recyclerView;
     private DispalyBabyNameAdapter mAdapter;
+    private AdView mAdView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,15 +30,7 @@ public class MaleFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
-        mAdapter = new DispalyBabyNameAdapter(MainActivity.mbabyNameList,false);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
-
-//        AdView mAdView = view.findViewById(R.id.adView);
+//        mAdView = view.findViewById(R.id.adView);
 ////        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 //
 //        AdRequest adRequest = new AdRequest.Builder()
@@ -42,12 +39,16 @@ public class MaleFragment extends Fragment {
 //
 //        mAdView.loadAd(adRequest);
 
+        recyclerView = view.findViewById(R.id.recycler_view);
+        mAdapter = new DispalyBabyNameAdapter(MainActivity.fbabynameList,false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
         return view;
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
-
 }

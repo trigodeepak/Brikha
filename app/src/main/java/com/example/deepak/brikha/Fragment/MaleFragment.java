@@ -1,4 +1,4 @@
-package com.example.deepak.brikha;
+package com.example.deepak.brikha.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,37 +10,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
-import com.google.android.gms.ads.AdView;
+import com.example.deepak.brikha.Activity.MainActivity;
+import com.example.deepak.brikha.R;
 
-
-public class AllGenderFragment extends Fragment {
-
+public class MaleFragment extends Fragment {
     private RecyclerView recyclerView;
     private DispalyBabyNameAdapter mAdapter;
-    private AdView mAdView;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
-    // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        mAdapter = new DispalyBabyNameAdapter(MainActivity.babyNameList,true);
+        mAdapter = new DispalyBabyNameAdapter(MainActivity.mbabyNameList,false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-//        mAdView = view.findViewById(R.id.adView);
+//        AdView mAdView = view.findViewById(R.id.adView);
 ////        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 //
 //        AdRequest adRequest = new AdRequest.Builder()
@@ -56,4 +51,5 @@ public class AllGenderFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
     }
+
 }

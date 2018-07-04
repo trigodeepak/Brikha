@@ -1,4 +1,4 @@
-package com.example.deepak.brikha;
+package com.example.deepak.brikha.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.deepak.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;

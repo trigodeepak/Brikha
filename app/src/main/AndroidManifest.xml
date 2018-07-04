@@ -4,20 +4,20 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_brikha"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_brikha_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
+        <activity android:name=".Activity.MainActivity">
+            <intent-filter android:label="BabyNmaes">
+                <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ShowDetailsName"></activity>
+        <activity android:name=".Activity.ShowDetailsActivity"></activity>
 
-        <receiver android:name=".AllGenderFragment" />
     </application>
 
 </manifest>

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.deepak.brikha.ShowDetailsName"
-    >
+    tools:context="com.example.deepak.brikha.Activity.ShowDetailsActivity"
+    android:background="#EEEEEE">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
                 app:layout_collapseMode="pin"
                 />
     </android.support.design.widget.AppBarLayout>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_below="@+id/appbar"
             android:layout_width="match_parent"
@@ -26,13 +27,11 @@
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
         <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
@@ -40,20 +39,25 @@
             android:elevation="2dp"
             android:padding="@dimen/md_keylines"
             >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="155dp"
-                android:src="@drawable/card_back"
-                android:scaleType="centerCrop"/>
+            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
 
 
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+            <RelativeLayout
+                android:id="@+id/contents"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:padding="@dimen/md_keylines">
+
+                <View
+                    android:layout_below="@+id/tv_syriac"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#BDBDBD"/>
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -66,12 +70,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginStart="30dp"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginRight="30dp"
                     android:gravity="center"
                     android:text="Deepak"
-                    android:textColor="#0a3caa"
+                    android:textColor="#0a3daa"
                     android:textSize="35sp"
                     android:textStyle="bold" />
 
@@ -152,46 +156,47 @@
                     android:layout_alignLeft="@+id/tv_name"
                     android:layout_alignEnd="@+id/tv_name"
                     android:layout_alignRight="@+id/tv_name"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="syriac"
-                    android:textColor="#0A3CAA"
+                    android:textColor="#ff26ce"
                     android:textSize="35sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:fontFamily="@font/syriac_font"
+                    />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/md_keylines"
+                android:layout_below="@id/contents"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/prev_button"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_arabic_meaning"
-                    android:layout_alignStart="@+id/tv_arabic_meaning"
-                    android:layout_alignLeft="@+id/tv_arabic_meaning"
-                    android:layout_alignEnd="@+id/tv_arabic_meaning"
-                    android:layout_alignRight="@+id/tv_arabic_meaning"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:text="Prev"
+                    android:gravity="left"
+                    android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/prev_button"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-
-                        android:text="Prev"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/next_button"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:text="Next"
-                        android:textSize="18sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/next_button"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Next"
+                    android:gravity="right"
+                    android:textSize="18sp" />
+            </LinearLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-        </RelativeLayout>
+
         </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

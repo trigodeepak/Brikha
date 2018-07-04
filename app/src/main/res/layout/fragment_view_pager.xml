@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#EEEEEE">
 
 
         <android.support.design.widget.AppBarLayout

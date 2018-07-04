@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
-import com.example.deepak.brikha.ShowDetailsName;
+import com.example.deepak.brikha.Activity.ShowDetailsActivity;
 import com.google.android.gms.ads.InterstitialAd;
 
 
@@ -49,7 +49,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
 //                            mInterstitial.loadAd(adRequest);
 
 //                            Context context = view.getContext();
-//                            Intent myIntent = new Intent(context, ShowDetailsName.class);
+//                            Intent myIntent = new Intent(context, ShowDetailsActivity.class);
 //                            Bundle bundle = new Bundle();
 //                            bundle.putSerializable("object", babyNameList.get(getLayoutPosition()));
 //                            myIntent.putExtras(bundle);
@@ -60,7 +60,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
 //                    // If it has not loaded due to any reason simply load the next activity
 //                    else {
                         Context context = view.getContext();
-                        Intent myIntent = new Intent(context, ShowDetailsName.class);
+                        Intent myIntent = new Intent(context, ShowDetailsActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putInt("Index", (getLayoutPosition()));
                         myIntent.putExtras(bundle);

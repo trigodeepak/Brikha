@@ -1,4 +1,4 @@
-package com.example.deepak.brikha;
+package com.example.deepak.brikha.Activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
 import com.example.deepak.brikha.Model.BabyName;
+import com.example.deepak.brikha.ObjectSerializer;
+import com.example.deepak.brikha.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,8 +101,7 @@ private class MyTask extends AsyncTask<Object, Void, String> {
     protected String doInBackground(Object... params) {
         try {
             StringBuilder sb = new StringBuilder();
-            //todo change ip whenever the ip changes
-            URL url = new URL("http://172.21.7.249/android_app/get_data.php");
+            URL url = new URL("https://brikha.net/app/get_data.php");
             BufferedReader in;
             in = new BufferedReader(new InputStreamReader(url.openStream(),"UTF8"));
 
