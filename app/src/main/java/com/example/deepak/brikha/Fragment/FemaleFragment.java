@@ -40,7 +40,7 @@ public class FemaleFragment extends Fragment {
 //        mAdView.loadAd(adRequest);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        mAdapter = new DispalyBabyNameAdapter(MainActivity.fbabynameList,false);
+        mAdapter = new DispalyBabyNameAdapter(MainActivity.fbabynameList,1);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

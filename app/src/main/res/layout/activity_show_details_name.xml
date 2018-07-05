@@ -162,7 +162,7 @@
                     android:textColor="#ff26ce"
                     android:textSize="35sp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/syriac_font"
+                    app:fontFamily="@font/syriac_font"
                     />
             </RelativeLayout>
             <LinearLayout

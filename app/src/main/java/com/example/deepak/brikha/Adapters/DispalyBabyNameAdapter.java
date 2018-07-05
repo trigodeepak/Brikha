@@ -3,6 +3,7 @@ package com.example.deepak.brikha.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.deepak.brikha.Activity.MainActivity;
+import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
 import com.example.deepak.brikha.Activity.ShowDetailsActivity;
@@ -22,12 +25,14 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
 
     private List<BabyName> babyNameList;
     private InterstitialAd mInterstitial;
-    private boolean test;
+    private int test;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name,gender;
         public MyViewHolder(final View view) {
             super(view);
+
+//            font = Typeface.createFromAsset(view.getContext().getAssets(),"font/syriac_font.ttf");
 //            mInterstitial = new InterstitialAd(view.getContext());
 //            mInterstitial.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
 //            AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
@@ -37,6 +42,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
 //                    if (mInterstitial.isLoaded()){
 ////                        mInterstitial.show();
 //                        mInterstitial.setAdListener(new AdListener() {
@@ -47,24 +53,14 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
 //                                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 //                                    .build();
 //                            mInterstitial.loadAd(adRequest);
-
 //                            Context context = view.getContext();
 //                            Intent myIntent = new Intent(context, ShowDetailsActivity.class);
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("object", babyNameList.get(getLayoutPosition()));
-//                            myIntent.putExtras(bundle);
 //                            context.startActivity(myIntent);
 //                        }
 //                    });}
 //
 //                    // If it has not loaded due to any reason simply load the next activity
 //                    else {
-                        Context context = view.getContext();
-                        Intent myIntent = new Intent(context, ShowDetailsActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("Index", (getLayoutPosition()));
-                        myIntent.putExtras(bundle);
-                        context.startActivity(myIntent);
 //                }
                 }
             });
@@ -72,7 +68,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
 
     }
 
-    public DispalyBabyNameAdapter(List<BabyName> babyNameList,boolean i) {
+    public DispalyBabyNameAdapter(List<BabyName> babyNameList,int i) {
         this.babyNameList = babyNameList;
         this.test = i;
     }
@@ -91,16 +87,19 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         holder.name.setText(babyName.getName().substring(0, 1).toUpperCase()+babyName.getName().substring(1));}
         if (babyName.getIs_boy()){
             holder.name.setTextColor(Color.parseColor("#0A3DAA"));
-            if (test){
+            if (test==0){
             holder.gender.setText("Boy");}
-            else
-            holder.gender.setText(babyName.getSyriac());}
+            else{
+//                holder.gender.setTypeface(font);
+                holder.gender.setText(babyName.getSyriac());}}
         else {
             holder.name.setTextColor(Color.parseColor("#FF26CE"));
-            if (test){
+            if (test==0){
                 holder.gender.setText("Girl");}
-            else
+            else {
+//                holder.gender.setTypeface(font);
                 holder.gender.setText(babyName.getSyriac());
+            }
         }
     }
 

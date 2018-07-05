@@ -36,7 +36,7 @@ public class AllGenderFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
 
-        mAdapter = new DispalyBabyNameAdapter(MainActivity.babyNameList,true);
+        mAdapter = new DispalyBabyNameAdapter(MainActivity.babyNameList,0);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

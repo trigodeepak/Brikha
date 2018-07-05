@@ -29,7 +29,7 @@ public class MaleFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        mAdapter = new DispalyBabyNameAdapter(MainActivity.mbabyNameList,false);
+        mAdapter = new DispalyBabyNameAdapter(MainActivity.mbabyNameList,2);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

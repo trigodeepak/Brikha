@@ -1,14 +1,18 @@
 package com.example.deepak.brikha.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
 import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
+import com.example.deepak.brikha.Fragment.NameDetailsFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.ObjectSerializer;
 import com.example.deepak.brikha.R;
@@ -29,12 +33,15 @@ import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListOfNamesFragment.OnListClickListener{
     final public static String BABY_LIST= "baby_list";
     final public static String HASH_CODE= "hash_set";
     final public static String SHARED_PREFS_FILE = "BrikhasharedPref";
+    public static boolean twoPane = false;
+    public final static int[] PassInfo = new int[2];
     public static List<BabyName> babyNameList, mbabyNameList,fbabynameList,searchbabyNameList;
     public static Set<Integer> set;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +65,24 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).commit();
 
+        if(findViewById(R.id.linear_layout_tablet) != null){
+            twoPane = true;
+
+            ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).commit();
+
+            NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction().add(R.id.display_fragment, nameDetailsFragment).commit();
+        }
+        else {
+            twoPane = false;
+            ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).commit();
+        }
 
 //        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
 
@@ -71,6 +92,25 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void OnListSelected(int position,int fragmentNumber) {
+        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
+        if(!twoPane) {
+            final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
+            PassInfo[0]= position;
+            PassInfo[1] = fragmentNumber;
+            startActivity(myIntent);
+        }
+        else{
+            PassInfo[0]= position;
+            PassInfo[1] = fragmentNumber;
+            NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+            FragmentManager fragmentManager1 = getSupportFragmentManager();
+            fragmentManager1.beginTransaction().replace(R.id.display_fragment, nameDetailsFragment).commit();
+        }
+
     }
 
 //    @Override
@@ -203,7 +243,7 @@ private class MyTask extends AsyncTask<Object, Void, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        editor.commit();
+        editor.apply();
     }
     public static void Searching_in_List(String s){
         //Works Seamlessly

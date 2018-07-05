@@ -1,5 +1,6 @@
 package com.example.deepak.brikha.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.R;
 
 import java.util.ArrayList;
@@ -25,8 +27,25 @@ public class ListOfNamesFragment extends Fragment {
     MaleFragment Fragment3;
     FemaleFragment Fragment2;
 
+    public static OnListClickListener mListClickListener;
+
+    public interface OnListClickListener{
+        void OnListSelected(int position,int fragmentNumber);
+    }
+
     public ListOfNamesFragment(){
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            mListClickListener = (OnListClickListener) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString());
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,8 +58,13 @@ public class ListOfNamesFragment extends Fragment {
         ViewPager viewPager =  rootView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        if(!MainActivity.twoPane) {
+            Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        }
+        else{
+            rootView.findViewById(R.id.toolbar).setVisibility(View.GONE);
+        }
 
         TabLayout tabs = rootView.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
