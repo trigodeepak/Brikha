@@ -69,8 +69,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if(savedInstanceState == null){
+            try {
+                new MainActivity.MyTask().execute(this);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        //todo fragment inconsistency still there
         if(findViewById(R.id.linear_layout_tablet) != null){
             twoPane = true;
 
@@ -89,50 +94,51 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         }
         else{
             Log.d("Insinde ","Onsaveed instance");
-            if(findViewById(R.id.linear_layout_tablet) != null){
-                twoPane = true;
-                ListOfNamesFragment listOfNamesFragment;
-                //todo not solved Fragment Inconsistency
-
-                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
-                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
-                }
-                else {
-
-                    listOfNamesFragment = new ListOfNamesFragment();
-
-                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-                }
-
-
-                NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
-                fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment,DETAIL).commit();
-            }
-            else {
-                twoPane = false;
-                ListOfNamesFragment listOfNamesFragment;
-                //todo not solved Fragment Inconsistency
-
-                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
-                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
-                }
-                else {
-
-                    listOfNamesFragment = new ListOfNamesFragment();
-
-                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-                }}
+//            ListOfNamesFragment listOfNamesFragment;
+//            listOfNamesFragment = (ListOfNamesFragment)fragmentManager.findFragmentByTag(LIST_FRAG);
+//            if(listOfNamesFragment != null)
+//                getSupportFragmentManager().beginTransaction().remove(listOfNamesFragment).commit();
+//            listOfNamesFragment = new ListOfNamesFragment();
+//            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).addToBackStack(null).commit();
+//            if(findViewById(R.id.linear_layout_tablet) != null){
+//                twoPane = true;
+//                ListOfNamesFragment listOfNamesFragment;
+//                //todo not solved Fragment Inconsistency
+//
+//                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
+//                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
+//                }
+//                else {
+//
+//                    listOfNamesFragment = new ListOfNamesFragment();
+//
+//                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+//                }
+//
+//
+//                NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+//                fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment,DETAIL).commit();
+//            }
+//            else {
+//                twoPane = false;
+//                ListOfNamesFragment listOfNamesFragment;
+//                //todo not solved Fragment Inconsistency
+//
+//                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
+//                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
+//                }
+//                else {
+//
+//                    listOfNamesFragment = new ListOfNamesFragment();
+//
+//                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+//                }}
 
         }
 
 //        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
 
-        try {
-            new MainActivity.MyTask().execute(this);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

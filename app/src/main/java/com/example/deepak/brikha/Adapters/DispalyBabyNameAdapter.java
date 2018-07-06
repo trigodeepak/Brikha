@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,37 @@ import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
 import com.example.deepak.brikha.Activity.ShowDetailsActivity;
 import com.google.android.gms.ads.InterstitialAd;
+import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 
 import java.util.List;
 
-public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyNameAdapter.MyViewHolder> {
+public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyNameAdapter.MyViewHolder> implements INameableAdapter {
 
     private List<BabyName> babyNameList;
     private InterstitialAd mInterstitial;
-    private int test;
+    private final int test;
+
+    @Override
+    public Character getCharacterForElement(int element) {
+        try {
+            Character c;
+            switch (test) {
+                case 0 : c = MainActivity.babyNameList.get(element).getName().charAt(0); break;
+                case 1 : c = MainActivity.fbabynameList.get(element).getName().charAt(0); break;
+                case 2 : c = MainActivity.mbabyNameList.get(element).getName().charAt(0); break;
+                default: c = '0';
+            }
+            if (Character.isDigit(c)) {
+                c = '#';
+            }
+            return c;
+        }
+        catch (Exception e){
+        }
+        Log.d("Issue with Names",MainActivity.babyNameList.get(element).getName());
+        return '#';
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name,gender;

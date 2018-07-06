@@ -119,5 +119,6 @@ public class ListOfNamesFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        setRetainInstance(true);
     }
 }

@@ -10,6 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
+    <com.turingtechnologies.materialscrollbar.DragScrollBar
+        android:id="@+id/drag_scroll_bar"
+        android:layout_width="wrap_content"
+        app:msb_recyclerView="@id/recycler_view"
+        app:msb_lightOnTouch="false"
+        app:msb_barColor="@color/colorAccent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"

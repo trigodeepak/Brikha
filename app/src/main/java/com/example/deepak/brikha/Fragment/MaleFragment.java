@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
 import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.R;
+import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
+import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
 public class MaleFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -34,6 +36,8 @@ public class MaleFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        ((DragScrollBar)view.findViewById(R.id.drag_scroll_bar)).setIndicator(new AlphabetIndicator(view.getContext()), true);;
+
 
 //        AdView mAdView = view.findViewById(R.id.adView);
 ////        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");

@@ -13,6 +13,8 @@ import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
 import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.R;
 import com.google.android.gms.ads.AdView;
+import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
+import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
 
 public class AllGenderFragment extends Fragment {
@@ -25,7 +27,6 @@ public class AllGenderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -41,6 +42,7 @@ public class AllGenderFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        ((DragScrollBar)view.findViewById(R.id.drag_scroll_bar)).setIndicator(new AlphabetIndicator(view.getContext()), true);;
 
 //        mAdView = view.findViewById(R.id.adView);
 ////        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
