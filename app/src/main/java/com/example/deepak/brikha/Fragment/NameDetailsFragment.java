@@ -69,16 +69,7 @@ public class NameDetailsFragment extends Fragment {
             }
         });
 
-        if(!MainActivity.twoPane){
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }}
-        else{
-            rootView.findViewById(R.id.toolbar).setVisibility(View.GONE);
-        }
+
 
         return rootView;
     }
@@ -108,11 +99,4 @@ public class NameDetailsFragment extends Fragment {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

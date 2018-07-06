@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
-        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
             PassInfo[0]= position;

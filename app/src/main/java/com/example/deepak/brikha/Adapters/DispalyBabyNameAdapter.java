@@ -28,6 +28,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
     private List<BabyName> babyNameList;
     private InterstitialAd mInterstitial;
     private final int test;
+    Typeface font;
 
     @Override
     public Character getCharacterForElement(int element) {
@@ -54,8 +55,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         TextView name,gender;
         public MyViewHolder(final View view) {
             super(view);
-
-//            font = Typeface.createFromAsset(view.getContext().getAssets(),"font/syriac_font.ttf");
+            font = Typeface.createFromAsset(view.getContext().getAssets(),"fonts/syriac_font.ttf");
 //            mInterstitial = new InterstitialAd(view.getContext());
 //            mInterstitial.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
 //            AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
@@ -113,14 +113,18 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
             if (test==0){
             holder.gender.setText("Boy");}
             else{
-//                holder.gender.setTypeface(font);
+                holder.gender.setTypeface(font);
+                holder.gender.setTextScaleX(2);
+                holder.gender.setTextSize(25);
                 holder.gender.setText(babyName.getSyriac());}}
         else {
             holder.name.setTextColor(Color.parseColor("#FF26CE"));
             if (test==0){
                 holder.gender.setText("Girl");}
             else {
-//                holder.gender.setTypeface(font);
+                holder.gender.setTypeface(font);
+                holder.gender.setTextScaleX(2);
+                holder.gender.setTextSize(25);
                 holder.gender.setText(babyName.getSyriac());
             }
         }

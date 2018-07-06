@@ -6,21 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.deepak.brikha.Activity.ShowDetailsActivity"
     android:background="#EEEEEE">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin"
-                />
-    </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
             android:layout_below="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -159,9 +145,9 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="syriac"
+                    android:textScaleX="2"
                     android:textColor="#ff26ce"
-                    android:textSize="35sp"
-                    android:textStyle="bold"
+                    android:textSize="45sp"
                     app:fontFamily="@font/syriac_font"
                     />
             </RelativeLayout>
@@ -182,7 +168,8 @@
                     android:layout_weight="1"
                     android:text="Prev"
                     android:gravity="left"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#9e9e9e"/>
 
                 <TextView
                     android:id="@+id/next_button"
@@ -193,7 +180,8 @@
                     android:layout_weight="1"
                     android:text="Next"
                     android:gravity="right"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#9e9e9e"/>
             </LinearLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
