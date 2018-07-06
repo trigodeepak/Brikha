@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     final public static String BABY_LIST= "baby_list";
     final public static String HASH_CODE= "hash_set";
     final public static String SHARED_PREFS_FILE = "BrikhasharedPref";
+    final public static String LIST_FRAG = "LIST_FRAG",DETAIL="DETAIL";
     public static boolean twoPane = false;
     public final static int[] PassInfo = new int[2];
     public static List<BabyName> babyNameList, mbabyNameList,fbabynameList,searchbabyNameList;
@@ -65,23 +66,63 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
         setContentView(R.layout.activity_main);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
+        if(savedInstanceState == null){
+
+        //todo fragment inconsistency still there
         if(findViewById(R.id.linear_layout_tablet) != null){
             twoPane = true;
 
             ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).commit();
+
+            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment,LIST_FRAG).commit();
 
             NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
-            FragmentManager fragmentManager1 = getSupportFragmentManager();
-            fragmentManager1.beginTransaction().add(R.id.display_fragment, nameDetailsFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment,DETAIL).commit();
         }
         else {
             twoPane = false;
             ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment,LIST_FRAG).commit();
+        }
+        }
+        else{
+            Log.d("Insinde ","Onsaveed instance");
+            if(findViewById(R.id.linear_layout_tablet) != null){
+                twoPane = true;
+                ListOfNamesFragment listOfNamesFragment;
+                //todo not solved Fragment Inconsistency
+
+                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
+                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
+                }
+                else {
+
+                    listOfNamesFragment = new ListOfNamesFragment();
+
+                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+                }
+
+
+                NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+                fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment,DETAIL).commit();
+            }
+            else {
+                twoPane = false;
+                ListOfNamesFragment listOfNamesFragment;
+                //todo not solved Fragment Inconsistency
+
+                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
+                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
+                }
+                else {
+
+                    listOfNamesFragment = new ListOfNamesFragment();
+
+                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+                }}
+
         }
 
 //        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
@@ -113,7 +154,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     }
 
-//    @Override
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("hel",0);
+    }
+
+    //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu)
 //    {
 //        MenuInflater menuInflater = getMenuInflater();

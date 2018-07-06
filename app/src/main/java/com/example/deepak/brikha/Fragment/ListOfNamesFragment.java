@@ -54,9 +54,8 @@ public class ListOfNamesFragment extends Fragment {
         Fragment1 = new AllGenderFragment();
         Fragment2 = new FemaleFragment();
         Fragment3 = new MaleFragment();
-
         ViewPager viewPager =  rootView.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        TabLayout tabs = rootView.findViewById(R.id.tabs);
 
         if(!MainActivity.twoPane) {
             Toolbar toolbar = rootView.findViewById(R.id.toolbar);
@@ -66,8 +65,16 @@ public class ListOfNamesFragment extends Fragment {
             rootView.findViewById(R.id.toolbar).setVisibility(View.GONE);
         }
 
-        TabLayout tabs = rootView.findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        if(savedInstanceState == null) {
+            setupViewPager(viewPager);
+            tabs.setupWithViewPager(viewPager);
+
+        }
+        else{
+            //This code will never works
+            tabs.setVisibility(View.GONE);
+            viewPager.setVisibility(View.GONE);
+        }
         return rootView;
     }
 
@@ -109,5 +116,8 @@ public class ListOfNamesFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }
