@@ -18,6 +18,7 @@ import com.example.deepak.brikha.Fragment.NameDetailsFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.ObjectSerializer;
 import com.example.deepak.brikha.R;
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //todo apply admob have done sample admob
         super.onCreate(savedInstanceState);
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
@@ -94,13 +94,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 //                e.printStackTrace();
 //            }
 //        }
-//        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
+        MobileAds.initialize(this, "ca-app-pub-3863741641307399~5978419919");
     }
 
     public void SetViewPager(){
         if(dataFetech) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                progressDialog.dismiss();
+
                 Toast.makeText(this,"Data is now Fetched",Toast.LENGTH_SHORT).show();
                 if (findViewById(R.id.linear_layout_tablet) != null) {
                     Log.d("Brikha","Can't get data here ");
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                     ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
                     fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
                 }
+                progressDialog.dismiss();
         }
         else{
             try {

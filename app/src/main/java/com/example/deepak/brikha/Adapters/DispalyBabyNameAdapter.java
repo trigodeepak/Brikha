@@ -15,6 +15,8 @@ import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
@@ -54,36 +56,36 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         public MyViewHolder(final View view) {
             super(view);
             font = Typeface.createFromAsset(view.getContext().getAssets(),"fonts/syriac_font.ttf");
-//            mInterstitial = new InterstitialAd(view.getContext());
-//            mInterstitial.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-//            AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-//            mInterstitial.loadAd(request);
-            name = (TextView) view.findViewById(R.id.tv_name);
-            gender = (TextView) view.findViewById(R.id.tv_gender);
+            mInterstitial = new InterstitialAd(view.getContext());
+            mInterstitial.setAdUnitId("ca-app-pub-3863741641307399/5016282917");
+            AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+            mInterstitial.loadAd(request);
+            name =  view.findViewById(R.id.tv_name);
+            gender = view.findViewById(R.id.tv_gender);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
-//                    if (mInterstitial.isLoaded()){
-////                        mInterstitial.show();
-//                        mInterstitial.setAdListener(new AdListener() {
-//                        @Override
-//                        public void onAdClosed() {
-                            // Step 2.1: Load another ad
-//                            AdRequest adRequest = new AdRequest.Builder()
-//                                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//                                    .build();
-//                            mInterstitial.loadAd(adRequest);
-//                            Context context = view.getContext();
-//                            Intent myIntent = new Intent(context, ShowDetailsActivity.class);
-//                            context.startActivity(myIntent);
-//                        }
-//                    });}
-//
-//                    // If it has not loaded due to any reason simply load the next activity
-//                    else {
-//                }
+                    if (mInterstitial.isLoaded()){
+                        mInterstitial.show();
+                        mInterstitial.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdClosed() {
+                            AdRequest adRequest = new AdRequest.Builder()
+                                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                                    .build();
+                            mInterstitial.loadAd(adRequest);
+                            ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
+
+                        }
+                    });}
+
+                    // If it has not loaded due to any reason simply load the next activity
+                    else {
+                        ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
+
+                    }
                 }
+
             });
         }
 
@@ -113,7 +115,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
             holder.gender.setText("Boy");}
             else{
                 holder.gender.setTypeface(font);
-                holder.gender.setLetterSpacing((float) .07);
+                holder.gender.setLetterSpacing((float) .02);
                 holder.gender.setTextSize(30);
                 holder.gender.setText(babyName.getSyriac());}}
         else {
@@ -122,7 +124,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
                 holder.gender.setText("Girl");}
             else {
                 holder.gender.setTypeface(font);
-                holder.gender.setLetterSpacing((float) .07);
+                holder.gender.setLetterSpacing((float) .02);
                 holder.gender.setTextSize(30);
                 holder.gender.setText(babyName.getSyriac());
             }

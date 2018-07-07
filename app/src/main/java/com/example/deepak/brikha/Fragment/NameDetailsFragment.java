@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class NameDetailsFragment extends Fragment {
     BabyName babyName;
     private int index;
     private List<BabyName> BabyNameList;
+    private AdView mAdView;
 
     TextView name,pronun,meaning,arabic,arabic_meaning,syriac;
     TextView prev,next;
@@ -41,6 +44,14 @@ public class NameDetailsFragment extends Fragment {
         BabyNameList = (List<BabyName>) b.getSerializable("BabyNameList");
         index = b.getInt("Index");
         }
+
+        mAdView = rootView.findViewById(R.id.adView);
+//        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mAdView.loadAd(adRequest);
 
         name = rootView.findViewById(R.id.tv_name);
         pronun = rootView.findViewById(R.id.tv_pron);

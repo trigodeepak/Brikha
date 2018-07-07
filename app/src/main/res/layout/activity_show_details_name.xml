@@ -145,7 +145,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="syriac"
-                    android:letterSpacing=".07"
+                    android:letterSpacing=".02"
                     android:textColor="#ff26ce"
                     android:textSize="45sp"
                     app:fontFamily="@font/syriac_font"
@@ -187,4 +187,16 @@
         </android.support.v7.widget.CardView>
 
         </android.support.v4.widget.NestedScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3863741641307399/6569021825">
+    </com.google.android.gms.ads.AdView>
+
 </RelativeLayout>
