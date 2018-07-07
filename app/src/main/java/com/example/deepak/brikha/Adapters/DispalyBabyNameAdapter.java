@@ -103,7 +103,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         return new MyViewHolder(itemView);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         BabyName babyName = babyNameList.get(position);
@@ -115,7 +115,9 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
             holder.gender.setText("Boy");}
             else{
                 holder.gender.setTypeface(font);
-                holder.gender.setLetterSpacing((float) .02);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.gender.setLetterSpacing((float) .02);
+                }
                 holder.gender.setTextSize(30);
                 holder.gender.setText(babyName.getSyriac());}}
         else {
@@ -124,8 +126,9 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
                 holder.gender.setText("Girl");}
             else {
                 holder.gender.setTypeface(font);
-                holder.gender.setLetterSpacing((float) .02);
-                holder.gender.setTextSize(30);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.gender.setLetterSpacing((float) .02);
+                }holder.gender.setTextSize(30);
                 holder.gender.setText(babyName.getSyriac());
             }
         }
