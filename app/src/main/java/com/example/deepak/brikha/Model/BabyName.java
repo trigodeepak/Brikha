@@ -1,8 +1,10 @@
 package com.example.deepak.brikha.Model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
-public class BabyName implements Serializable{
+public class BabyName implements Serializable,Comparable<BabyName>{
 
     public BabyName(String Name, String pronunciation, String meaning, String arabicMeaning, String arabic, String syriac, Boolean is_boy) {
         this.Name = Name;
@@ -73,5 +75,10 @@ public class BabyName implements Serializable{
 
     public void setIs_boy(Boolean is_boy) {
         this.is_boy = is_boy;
+    }
+
+    @Override
+    public int compareTo(@NonNull BabyName other) {
+        return this.getName().compareTo(other.getName());
     }
 }

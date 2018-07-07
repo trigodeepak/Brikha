@@ -9,15 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_brikha_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity">
-            <intent-filter android:label="BabyNmaes">
+        <activity android:name=".Activity.MainActivity"
+            android:screenOrientation="nosensor"
+            >
+            <intent-filter android:label="BabyNames">
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ShowDetailsActivity"></activity>
-
+        <activity
+            android:name=".Activity.ShowDetailsActivity"
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>

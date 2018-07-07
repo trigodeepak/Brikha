@@ -5,22 +5,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NameDetailsFragment extends Fragment {
     BabyName babyName;
     private int index;
+    private List<BabyName> BabyNameList;
 
     TextView name,pronun,meaning,arabic,arabic_meaning,syriac;
     TextView prev,next;
@@ -33,7 +33,14 @@ public class NameDetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.activity_show_details_name,container,false);
 
-        index = MainActivity.PassInfo[0];
+//        index = MainActivity.PassInfo[0];
+        index = 0;
+        BabyNameList = new ArrayList<>();
+        Bundle b = getArguments();
+        if(b!=null){
+        BabyNameList = (List<BabyName>) b.getSerializable("BabyNameList");
+        index = b.getInt("Index");
+        }
 
         name = rootView.findViewById(R.id.tv_name);
         pronun = rootView.findViewById(R.id.tv_pron);
@@ -43,7 +50,6 @@ public class NameDetailsFragment extends Fragment {
         syriac = rootView.findViewById(R.id.tv_syriac);
 
         refreshTextViews();
-
         next = rootView.findViewById(R.id.next_button);
         prev = rootView.findViewById(R.id.prev_button);
 
@@ -51,8 +57,8 @@ public class NameDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 index++;
-                if (index>= MainActivity.babyNameList.size()){
-                    index-=MainActivity.babyNameList.size();
+                if (index>= BabyNameList.size()){
+                    index-=BabyNameList.size();
                 }
                 refreshTextViews();
             }
@@ -63,38 +69,34 @@ public class NameDetailsFragment extends Fragment {
             public void onClick(View v) {
                 index--;
                 if (index<0){
-                    index = MainActivity.babyNameList.size()-1;
+                    index = BabyNameList.size()-1;
                 }
                 refreshTextViews();
             }
         });
 
-
-
         return rootView;
     }
 
     void refreshTextViews(){
-        switch (MainActivity.PassInfo[1]){
-            case 0: babyName = MainActivity.babyNameList.get(index); break;
-            case 1: babyName = MainActivity.fbabynameList.get(index); break;
-            case 2: babyName = MainActivity.mbabyNameList.get(index); break;
-        }
-
-        name.setText(babyName.getName());
-        String sourceString = "Pronunciation : "+"<i>/" + babyName.getPronunciation() + "/</i> ";
-        pronun.setText(Html.fromHtml(sourceString));
-        meaning.setText("Meaning : "+ babyName.getMeaning());
-        arabic.setText("الكتابة باللغة العربية : "+babyName.getArabic());
-        syriac.setText(babyName.getSyriac());
-        arabic_meaning.setText("المعنى : "+babyName.getArabicMeaning());
-        if (babyName.getIs_boy()){
-            name.setTextColor(Color.parseColor("#0a3daa"));
-            syriac.setTextColor(Color.parseColor("#0a3daa"));
-        }
-        else{
-            name.setTextColor(Color.parseColor("#ff26ce"));
-            syriac.setTextColor(Color.parseColor("#ff26ce"));
+        if (BabyNameList.size()>0){
+            babyName = BabyNameList.get(index);}
+        Log.d("Size"," "+BabyNameList.size()+babyName.getName());
+        if(babyName!=null) {
+            name.setText(babyName.getName());
+            String sourceString = "Pronunciation : " + "<i>/" + babyName.getPronunciation() + "/</i> ";
+            pronun.setText(Html.fromHtml(sourceString));
+            meaning.setText("Meaning : " + babyName.getMeaning());
+            arabic.setText("الكتابة باللغة العربية : " + babyName.getArabic());
+            syriac.setText(babyName.getSyriac());
+            arabic_meaning.setText("المعنى : " + babyName.getArabicMeaning());
+            if (babyName.getIs_boy()) {
+                name.setTextColor(Color.parseColor("#0a3daa"));
+                syriac.setTextColor(Color.parseColor("#0a3daa"));
+            } else {
+                name.setTextColor(Color.parseColor("#ff26ce"));
+                syriac.setTextColor(Color.parseColor("#ff26ce"));
+            }
         }
 
     }

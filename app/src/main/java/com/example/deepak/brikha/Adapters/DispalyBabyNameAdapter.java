@@ -1,10 +1,9 @@
 package com.example.deepak.brikha.Adapters;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Bundle;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
-import com.example.deepak.brikha.Activity.ShowDetailsActivity;
 import com.google.android.gms.ads.InterstitialAd;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
@@ -36,7 +34,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
             Character c;
             switch (test) {
                 case 0 : c = MainActivity.babyNameList.get(element).getName().charAt(0); break;
-                case 1 : c = MainActivity.fbabynameList.get(element).getName().charAt(0); break;
+                case 1 : c = MainActivity.fbabyNameList.get(element).getName().charAt(0); break;
                 case 2 : c = MainActivity.mbabyNameList.get(element).getName().charAt(0); break;
                 default: c = '0';
             }
@@ -103,6 +101,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         return new MyViewHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         BabyName babyName = babyNameList.get(position);
@@ -114,8 +113,8 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
             holder.gender.setText("Boy");}
             else{
                 holder.gender.setTypeface(font);
-                holder.gender.setTextScaleX(2);
-                holder.gender.setTextSize(25);
+                holder.gender.setLetterSpacing((float) .07);
+                holder.gender.setTextSize(30);
                 holder.gender.setText(babyName.getSyriac());}}
         else {
             holder.name.setTextColor(Color.parseColor("#FF26CE"));
@@ -123,8 +122,8 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
                 holder.gender.setText("Girl");}
             else {
                 holder.gender.setTypeface(font);
-                holder.gender.setTextScaleX(2);
-                holder.gender.setTextSize(25);
+                holder.gender.setLetterSpacing((float) .07);
+                holder.gender.setTextSize(30);
                 holder.gender.setText(babyName.getSyriac());
             }
         }

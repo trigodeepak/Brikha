@@ -17,7 +17,7 @@
         android:layout_width="1dp"
         android:layout_weight="0"
         android:layout_height="match_parent"
-        android:background="#000"/>
+        android:background="#455A64"/>
 
     <FrameLayout
         android:id="@+id/display_fragment"

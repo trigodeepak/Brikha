@@ -11,15 +11,24 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.deepak.brikha.Activity.MainActivity;
+import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.example.deepak.brikha.Activity.MainActivity.babyNameList;
+import static com.example.deepak.brikha.Activity.MainActivity.searchbabyNameList;
 
 public class ListOfNamesFragment extends Fragment {
 
@@ -44,6 +53,7 @@ public class ListOfNamesFragment extends Fragment {
         }catch (ClassCastException e){
             throw new ClassCastException(context.toString());
         }
+
     }
 
     @Nullable
@@ -51,19 +61,17 @@ public class ListOfNamesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_view_pager,container,false);
+
         Fragment1 = new AllGenderFragment();
         Fragment2 = new FemaleFragment();
         Fragment3 = new MaleFragment();
         ViewPager viewPager =  rootView.findViewById(R.id.viewpager);
         TabLayout tabs = rootView.findViewById(R.id.tabs);
 
-        if(!MainActivity.twoPane) {
-            Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        }
-        else{
-            rootView.findViewById(R.id.toolbar).setVisibility(View.GONE);
-        }
+
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
 
         if(savedInstanceState == null) {
             setupViewPager(viewPager);
@@ -120,5 +128,53 @@ public class ListOfNamesFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu)
+//    {
+//        MenuInflater menuInflater = new MenuInflater();
+//        menuInflater.inflate(R.menu.main_menu, menu);
+//        super.onCreateOptionsMenu(menu, menuInflater);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.info:
+//            return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
+
+    public void ReverseList(List<BabyName> babyNames){
+        //Reversing list works
+        Collections.reverse(babyNames);
+//        Fragment1 = new AllGenderFragment();
+//        ViewPager viewPager =  findViewById(R.id.viewpager);
+//        setupViewPager(viewPager);
+
+    }
+
+    public static void Searching_in_List(String s){
+        //Works Seamlessly
+        searchbabyNameList = new ArrayList<>();
+        for(BabyName b:babyNameList){
+            if(b.getName().contains(s)){
+                Log.d("Find in ",b.getName());
+                searchbabyNameList.add(b);
+            }
+        }
     }
 }

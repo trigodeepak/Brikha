@@ -10,6 +10,8 @@ import android.view.View;
 import com.example.deepak.brikha.Fragment.NameDetailsFragment;
 import com.example.deepak.brikha.R;
 
+import java.io.Serializable;
+
 public class ShowDetailsActivity extends AppCompatActivity {
 
     @Override
@@ -25,9 +27,18 @@ public class ShowDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        Bundle bundle = new Bundle();
+        bundle.putInt("Index",MainActivity.PassInfo[0]);
+        switch (MainActivity.PassInfo[1]) {
+            case 0:bundle.putSerializable("BabyNameList", (Serializable) MainActivity.babyNameList); break;
+            case 1:bundle.putSerializable("BabyNameList", (Serializable) MainActivity.fbabyNameList); break;
+            case 2:bundle.putSerializable("BabyNameList", (Serializable) MainActivity.mbabyNameList); break;
+        }
+
         NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.list_fragment, nameDetailsFragment).commit();
+        nameDetailsFragment.setArguments(bundle);
+        FragmentManager fragmentManager1 = getSupportFragmentManager();
+        fragmentManager1.beginTransaction().replace(R.id.list_fragment, nameDetailsFragment).commit();
 
     }
 

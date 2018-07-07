@@ -8,9 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
 import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
 import com.example.deepak.brikha.Fragment.NameDetailsFragment;
 import com.example.deepak.brikha.Model.BabyName;
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     final public static String LIST_FRAG = "LIST_FRAG",DETAIL="DETAIL";
     public static boolean twoPane = false;
     public final static int[] PassInfo = new int[2];
-    public static List<BabyName> babyNameList, mbabyNameList,fbabynameList,searchbabyNameList;
+    public static List<BabyName> babyNameList, mbabyNameList, fbabyNameList,searchbabyNameList;
     public static Set<Integer> set;
+    private boolean dataFetech = false;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -50,100 +53,79 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         super.onCreate(savedInstanceState);
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
-        fbabynameList = new ArrayList<>();
+        fbabyNameList = new ArrayList<>();
         searchbabyNameList = new ArrayList<>();
         set = new HashSet<>();
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         try {
-            babyNameList = (ArrayList<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
+            babyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             set = (HashSet<Integer>) ObjectSerializer.deserialize(prefs.getString(HASH_CODE, ObjectSerializer.serialize(new HashSet<Integer>())));
+            Collections.sort(babyNameList);
             makeMaleFemaleBabyList();
-        } catch (IOException e) {
+            dataFetech = true;
+        } catch (Exception e) {
+            Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
+            try {
+                Log.e("Sys Error",prefs.getString(BABY_LIST,ObjectSerializer.serialize(new ArrayList<BabyName>())));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
-
         setContentView(R.layout.activity_main);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        if(savedInstanceState == null){
-            try {
-                new MainActivity.MyTask().execute(this);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        if(findViewById(R.id.linear_layout_tablet) != null){
-            twoPane = true;
-
-            ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-
-            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment,LIST_FRAG).commit();
-
-            NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
-            fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment,DETAIL).commit();
-        }
-        else {
-            twoPane = false;
-            ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment,LIST_FRAG).commit();
-        }
-        }
-        else{
-            Log.d("Insinde ","Onsaveed instance");
-//            ListOfNamesFragment listOfNamesFragment;
-//            listOfNamesFragment = (ListOfNamesFragment)fragmentManager.findFragmentByTag(LIST_FRAG);
-//            if(listOfNamesFragment != null)
-//                getSupportFragmentManager().beginTransaction().remove(listOfNamesFragment).commit();
-//            listOfNamesFragment = new ListOfNamesFragment();
-//            fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment).addToBackStack(null).commit();
-//            if(findViewById(R.id.linear_layout_tablet) != null){
-//                twoPane = true;
-//                ListOfNamesFragment listOfNamesFragment;
-//                //todo not solved Fragment Inconsistency
-//
-//                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
-//                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
-//                }
-//                else {
-//
-//                    listOfNamesFragment = new ListOfNamesFragment();
-//
-//                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-//                }
-//
-//
-//                NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
-//                fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment,DETAIL).commit();
-//            }
-//            else {
-//                twoPane = false;
-//                ListOfNamesFragment listOfNamesFragment;
-//                //todo not solved Fragment Inconsistency
-//
-//                if (fragmentManager.findFragmentByTag(LIST_FRAG) != null) {
-//                    listOfNamesFragment = (ListOfNamesFragment) fragmentManager.findFragmentByTag(LIST_FRAG);
-//                }
-//                else {
-//
-//                    listOfNamesFragment = new ListOfNamesFragment();
-//
-//                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-//                }}
-
-        }
-
+        progressBar = findViewById(R.id.progressBar_cyclic);
+        SetViewPager(savedInstanceState);
 //        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
 
+    }
 
+    public void SetViewPager(Bundle savedInstanceState){
+        if(dataFetech) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            if (savedInstanceState == null) {
+                try {
+                    new MainActivity.MyTask().execute(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (findViewById(R.id.linear_layout_tablet) != null) {
+                    twoPane = true;
+                    ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("BabyNameList", (Serializable) babyNameList);
+                    bundle.putInt("Index", 0);
+
+                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+
+                    NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+                    nameDetailsFragment.setArguments(bundle);
+                    fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment, DETAIL).commit();
+                } else {
+                    twoPane = false;
+                    ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+                    fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+                }
+            } else {
+                Log.d("Insinde ", "Onsaveed instance");
+            }
+        }
+        else{
+            try {
+                new MainActivity.MyTask().execute(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
 //        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
+
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
             PassInfo[0]= position;
@@ -151,9 +133,16 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             startActivity(myIntent);
         }
         else{
-            PassInfo[0]= position;
-            PassInfo[1] = fragmentNumber;
+            Bundle bundle = new Bundle();
+            bundle.putInt("Index",position);
+            switch (fragmentNumber) {
+                case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
+                case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
+                case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
+            }
+
             NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+            nameDetailsFragment.setArguments(bundle);
             FragmentManager fragmentManager1 = getSupportFragmentManager();
             fragmentManager1.beginTransaction().replace(R.id.display_fragment, nameDetailsFragment).commit();
         }
@@ -166,27 +155,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         outState.putInt("hel",0);
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.main_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.search:
-//                return true;
-//            case R.id.order:
-//                ReverseList(babyNameList);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
 
 private class MyTask extends AsyncTask<Object, Void, String> {
@@ -248,23 +216,25 @@ private class MyTask extends AsyncTask<Object, Void, String> {
             e.printStackTrace();
         }
         if(Flag){
-        makeMaleFemaleBabyList();
-        structureBabylist();
-        storeToSharedPreferences();}
-
+            makeMaleFemaleBabyList();
+        }
     }
+
     public void makeMaleFemaleBabyList(){
+        //Jabse sort Lagaha hai shared Preferences mein chul hai
+//        Collections.sort(babyNameList);
         for(int i = 0;i<babyNameList.size();i++){
             if(babyNameList.get(i).getIs_boy())
                 mbabyNameList.add(babyNameList.get(i));
             else
-                fbabynameList.add(babyNameList.get(i));
+                fbabyNameList.add(babyNameList.get(i));
         }
+        structureBabylist();
     }
 
     public void structureBabylist(){
         babyNameList = new ArrayList<>();
-        int m_size = mbabyNameList.size(),f_size = fbabynameList.size();
+        int m_size = mbabyNameList.size(),f_size = fbabyNameList.size();
         int j=0,k=0;
         for(int i = 0;i<f_size+m_size;i++){
             if(j==m_size || k==f_size)
@@ -274,19 +244,21 @@ private class MyTask extends AsyncTask<Object, Void, String> {
                 j+=1;
             }
             else if (k<f_size){
-                babyNameList.add(fbabynameList.get(k));
+                babyNameList.add(fbabyNameList.get(k));
                 k+=1;
             }
         }
         while(k<f_size){
-            babyNameList.add(fbabynameList.get(k));
+            babyNameList.add(fbabyNameList.get(k));
             k++;
         }
         while(j<m_size){
             babyNameList.add(mbabyNameList.get(j));
             j++;
         }
+        storeToSharedPreferences();
     }
+
     public void storeToSharedPreferences(){
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -297,24 +269,13 @@ private class MyTask extends AsyncTask<Object, Void, String> {
             e.printStackTrace();
         }
         editor.apply();
-    }
-    public static void Searching_in_List(String s){
-        //Works Seamlessly
-        searchbabyNameList = new ArrayList<>();
-        for(BabyName b:babyNameList){
-            if(b.getName().contains(s)){
-                Log.d("Find in ",b.getName());
-                searchbabyNameList.add(b);
-            }
-        }
+        Log.d("Setting Up View Pager","came here");
+        dataFetech = true;
+        progressBar.setVisibility(View.GONE);
+        SetViewPager(null);
     }
 
-    public void ReverseList(List<BabyName> babyNames){
-        //Reversing list works
-        Collections.reverse(babyNameList);
-//        Fragment1 = new AllGenderFragment();
-//        ViewPager viewPager =  findViewById(R.id.viewpager);
-//        setupViewPager(viewPager);
 
-    }
+
+
 }
