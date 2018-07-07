@@ -65,22 +65,26 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         progressDialog.setCancelable(false);
 
         setContentView(R.layout.activity_main);
-        Log.d("Error", String.valueOf(dataFetech));
+        Log.d("Brikha", String.valueOf(dataFetech));
         try {
             babyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             set = (HashSet<Integer>) ObjectSerializer.deserialize(prefs.getString(HASH_CODE, ObjectSerializer.serialize(new HashSet<Integer>())));
-            //todo error here
-            makeMaleFemaleBabyList();
+            Log.d("Brikha","Fetched data already");
+            if(babyNameList.size()==0){
+                progressDialog.show();
+                Log.d("Brikha","No data fetched");
+                SetViewPager();
+                Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
+            }
+            else {
+                makeMaleFemaleBabyList();
+            }
         } catch (Exception e) {
             progressDialog.show();
+            Log.d("Brikha","No data fetched");
             SetViewPager();
             Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
-            try {
-                Log.e("Sys Error",prefs.getString(BABY_LIST,ObjectSerializer.serialize(new ArrayList<BabyName>())));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
+
         }
 
 //        if(dataFetech){
@@ -98,8 +102,8 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 progressDialog.dismiss();
                 Toast.makeText(this,"Data is now Fetched",Toast.LENGTH_SHORT).show();
-
                 if (findViewById(R.id.linear_layout_tablet) != null) {
+                    Log.d("Brikha","Can't get data here ");
                     twoPane = true;
                     ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
                     Bundle bundle = new Bundle();
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         }
         else{
             try {
-                Log.d("Fetching ","Fetching for the first time");
+                Log.d("Brikha ","Fetching for the first time");
                 new MainActivity.MyTask().execute(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 private class MyTask extends AsyncTask<Object, Void, String> {
     @Override
     protected String doInBackground(Object... params) {
+        Log.d("Brikha","Data Being fetched");
         try {
             StringBuilder sb = new StringBuilder();
             URL url = new URL("https://brikha.net/app/get_data.php");
@@ -183,8 +188,12 @@ private class MyTask extends AsyncTask<Object, Void, String> {
     }
     @Override
     protected void onPostExecute(String str) {
-        Log.d("Result",str+" ");
-        parseResult(str);
+        Log.d("Brikha Result",str+" ");
+        if(str!=null){
+        parseResult(str);}
+        else{
+            Log.d("Brikha","Connectivity Problem");
+        }
 //        ViewPager viewPager =  findViewById(R.id.viewpager);
 //        setupViewPager(viewPager);
         }
@@ -214,14 +223,15 @@ private class MyTask extends AsyncTask<Object, Void, String> {
                         babyName.setIs_boy(true);
                     }else
                         babyName.setIs_boy(false);
-//                URLEncoder.encode("臺北市", "utf-8")
                 babyNameList.add(i,babyName);}
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         if(Flag){
-            Collections.sort(babyNameList);
+            if(dataFetech) {
+                Collections.sort(babyNameList);
+            }
             makeMaleFemaleBabyList();
         }
     }
@@ -238,7 +248,7 @@ private class MyTask extends AsyncTask<Object, Void, String> {
 
     public void structureBabylist(){
         babyNameList = new ArrayList<>();
-        Log.d("Error","Is this function called");
+        Log.d("Brikha","Is this function called");
         int m_size = mbabyNameList.size(),f_size = fbabyNameList.size();
         int j=0,k=0;
         for(int i = 0;i<f_size+m_size;i++){
