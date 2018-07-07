@@ -81,7 +81,7 @@ public class NameDetailsFragment extends Fragment {
     void refreshTextViews(){
         if (BabyNameList.size()>0){
             babyName = BabyNameList.get(index);}
-        Log.d("Size"," "+BabyNameList.size()+babyName.getName());
+        Log.d("Size"," "+BabyNameList.size());
         if(babyName!=null) {
             name.setText(babyName.getName());
             String sourceString = "Pronunciation : " + "<i>/" + babyName.getPronunciation() + "/</i> ";

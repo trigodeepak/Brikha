@@ -86,6 +86,8 @@ public class ListOfNamesFragment extends Fragment {
         return rootView;
     }
 
+
+
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());

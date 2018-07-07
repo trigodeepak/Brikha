@@ -1,5 +1,6 @@
 package com.example.deepak.brikha.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public static List<BabyName> babyNameList, mbabyNameList, fbabyNameList,searchbabyNameList;
     public static Set<Integer> set;
     private boolean dataFetech = false;
-    private ProgressBar progressBar;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -59,13 +60,20 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait.");
+        progressDialog.setCancelable(false);
+
+        setContentView(R.layout.activity_main);
+        Log.d("Error", String.valueOf(dataFetech));
         try {
             babyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             set = (HashSet<Integer>) ObjectSerializer.deserialize(prefs.getString(HASH_CODE, ObjectSerializer.serialize(new HashSet<Integer>())));
-            Collections.sort(babyNameList);
+            //todo error here
             makeMaleFemaleBabyList();
-            dataFetech = true;
         } catch (Exception e) {
+            progressDialog.show();
+            SetViewPager();
             Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
             try {
                 Log.e("Sys Error",prefs.getString(BABY_LIST,ObjectSerializer.serialize(new ArrayList<BabyName>())));
@@ -74,23 +82,22 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             }
             e.printStackTrace();
         }
-        setContentView(R.layout.activity_main);
-        progressBar = findViewById(R.id.progressBar_cyclic);
-        SetViewPager(savedInstanceState);
-//        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
 
+//        if(dataFetech){
+//            try {
+//                new MainActivity.MyTask().execute(this);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        MobileAds.initialize(this, "ca-app-pub-5234423351540636~1347457065");
     }
 
-    public void SetViewPager(Bundle savedInstanceState){
+    public void SetViewPager(){
         if(dataFetech) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            if (savedInstanceState == null) {
-                try {
-                    new MainActivity.MyTask().execute(this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                progressDialog.dismiss();
+                Toast.makeText(this,"Data is now Fetched",Toast.LENGTH_SHORT).show();
 
                 if (findViewById(R.id.linear_layout_tablet) != null) {
                     twoPane = true;
@@ -109,12 +116,10 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                     ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
                     fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
                 }
-            } else {
-                Log.d("Insinde ", "Onsaveed instance");
-            }
         }
         else{
             try {
+                Log.d("Fetching ","Fetching for the first time");
                 new MainActivity.MyTask().execute(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -216,13 +221,12 @@ private class MyTask extends AsyncTask<Object, Void, String> {
             e.printStackTrace();
         }
         if(Flag){
+            Collections.sort(babyNameList);
             makeMaleFemaleBabyList();
         }
     }
 
     public void makeMaleFemaleBabyList(){
-        //Jabse sort Lagaha hai shared Preferences mein chul hai
-//        Collections.sort(babyNameList);
         for(int i = 0;i<babyNameList.size();i++){
             if(babyNameList.get(i).getIs_boy())
                 mbabyNameList.add(babyNameList.get(i));
@@ -234,6 +238,7 @@ private class MyTask extends AsyncTask<Object, Void, String> {
 
     public void structureBabylist(){
         babyNameList = new ArrayList<>();
+        Log.d("Error","Is this function called");
         int m_size = mbabyNameList.size(),f_size = fbabyNameList.size();
         int j=0,k=0;
         for(int i = 0;i<f_size+m_size;i++){
@@ -260,6 +265,11 @@ private class MyTask extends AsyncTask<Object, Void, String> {
     }
 
     public void storeToSharedPreferences(){
+        if(!dataFetech) {
+            dataFetech = true;
+            SetViewPager();
+        }
+        Log.d("Setting Up View Pager","View Pager set");
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         try {
@@ -269,13 +279,6 @@ private class MyTask extends AsyncTask<Object, Void, String> {
             e.printStackTrace();
         }
         editor.apply();
-        Log.d("Setting Up View Pager","came here");
-        dataFetech = true;
-        progressBar.setVisibility(View.GONE);
-        SetViewPager(null);
     }
-
-
-
 
 }

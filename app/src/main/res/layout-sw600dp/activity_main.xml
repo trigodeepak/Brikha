@@ -7,15 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linear_layout_tablet"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <ProgressBar
-        android:id="@+id/progressBar_cyclic"
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:minHeight="50dp"
-        android:minWidth="50dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+
     <FrameLayout
         android:id="@+id/list_fragment"
         android:layout_width="wrap_content"
