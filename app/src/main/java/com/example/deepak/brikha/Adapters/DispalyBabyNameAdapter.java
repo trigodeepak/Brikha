@@ -74,7 +74,6 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
                             @Override
                             public void onAdClosed() {
                                 AdRequest adRequest = new AdRequest.Builder()
-                                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                                         .build();
                                 mInterstitial.loadAd(adRequest);
                                 ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);

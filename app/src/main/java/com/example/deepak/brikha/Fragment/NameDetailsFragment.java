@@ -1,16 +1,20 @@
 package com.example.deepak.brikha.Fragment;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
 import com.google.android.gms.ads.AdRequest;
@@ -23,7 +27,7 @@ public class NameDetailsFragment extends Fragment {
     BabyName babyName;
     private int index;
     private List<BabyName> BabyNameList;
-    private AdView mAdView;
+    private AdView mAdView_tab,mAdView_mob;
 
     TextView name,pronun,meaning,arabic,arabic_meaning,syriac;
     TextView prev,next;
@@ -45,13 +49,21 @@ public class NameDetailsFragment extends Fragment {
             index = b.getInt("Index");
         }
 
-        mAdView = rootView.findViewById(R.id.adView);
+        mAdView_mob = rootView.findViewById(R.id.adView_mob);
+        mAdView_tab = rootView.findViewById(R.id.adView_tab);
+
+
 //        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
 
-        mAdView.loadAd(adRequest);
+        mAdView_mob.loadAd(adRequest);
+
+        AdRequest adRequest_tab = new AdRequest.Builder()
+                .build();
+
+        mAdView_tab.loadAd(adRequest_tab);
 
         name = rootView.findViewById(R.id.tv_name);
         pronun = rootView.findViewById(R.id.tv_pron);

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Brikha</string>
+
+    <string name="dev_info">Developer : Deepak Yadav<a href="https://github.com/trigodeepak/"/></string>
 </resources>
