@@ -12,6 +12,10 @@ import com.example.deepak.brikha.R;
 
 import java.io.Serializable;
 
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+
 public class ShowDetailsActivity extends AppCompatActivity {
 
     @Override
@@ -19,6 +23,9 @@ public class ShowDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details);
 
+        if(findViewById(R.id.switch_to_main)!=null){
+            finish();
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,16 +37,15 @@ public class ShowDetailsActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("Index",MainActivity.PassInfo[0]);
         switch (MainActivity.PassInfo[1]) {
-            case 0:bundle.putSerializable("BabyNameList", (Serializable) MainActivity.babyNameList); break;
-            case 1:bundle.putSerializable("BabyNameList", (Serializable) MainActivity.fbabyNameList); break;
-            case 2:bundle.putSerializable("BabyNameList", (Serializable) MainActivity.mbabyNameList); break;
+            case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
+            case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
+            case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
         }
 
         NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
         nameDetailsFragment.setArguments(bundle);
         FragmentManager fragmentManager1 = getSupportFragmentManager();
         fragmentManager1.beginTransaction().replace(R.id.list_fragment, nameDetailsFragment).commit();
-
     }
 
     @Override
@@ -49,7 +55,4 @@ public class ShowDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }

@@ -29,7 +29,7 @@ public class NameDetailsFragment extends Fragment {
     TextView prev,next;
     public NameDetailsFragment(){
     }
-    
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class NameDetailsFragment extends Fragment {
         BabyNameList = new ArrayList<>();
         Bundle b = getArguments();
         if(b!=null){
-        BabyNameList = (List<BabyName>) b.getSerializable("BabyNameList");
-        index = b.getInt("Index");
+            BabyNameList = (List<BabyName>) b.getSerializable("BabyNameList");
+            index = b.getInt("Index");
         }
 
         mAdView = rootView.findViewById(R.id.adView);
