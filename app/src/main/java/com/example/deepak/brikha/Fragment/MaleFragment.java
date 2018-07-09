@@ -17,6 +17,8 @@ import com.google.android.gms.ads.AdView;
 import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
 import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+
 public class MaleFragment extends Fragment {
     private RecyclerView recyclerView;
     private DispalyBabyNameAdapter mAdapter;
@@ -33,7 +35,7 @@ public class MaleFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        mAdapter = new DispalyBabyNameAdapter(MainActivity.mbabyNameList,2);
+        mAdapter = new DispalyBabyNameAdapter(mbabyNameList,2);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

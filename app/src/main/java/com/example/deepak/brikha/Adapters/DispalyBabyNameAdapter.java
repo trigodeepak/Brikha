@@ -23,6 +23,9 @@ import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 import java.util.List;
 
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+
 public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyNameAdapter.MyViewHolder> implements INameableAdapter {
 
     private List<BabyName> babyNameList;
@@ -35,9 +38,9 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         try {
             Character c;
             switch (test) {
-                case 0 : c = MainActivity.babyNameList.get(element).getName().charAt(0); break;
-                case 1 : c = MainActivity.fbabyNameList.get(element).getName().charAt(0); break;
-                case 2 : c = MainActivity.mbabyNameList.get(element).getName().charAt(0); break;
+                case 0 : c = babyNameList.get(element).getName().charAt(0); break;
+                case 1 : c = fbabyNameList.get(element).getName().charAt(0); break;
+                case 2 : c = mbabyNameList.get(element).getName().charAt(0); break;
                 default: c = '0';
             }
             if (Character.isDigit(c)) {
@@ -47,7 +50,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         }
         catch (Exception e){
         }
-        Log.d("Issue with Names",MainActivity.babyNameList.get(element).getName());
+        Log.d("Issue with Names",babyNameList.get(element).getName());
         return '#';
     }
 

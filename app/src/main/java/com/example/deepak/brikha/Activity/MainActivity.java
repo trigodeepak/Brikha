@@ -5,15 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.deepak.brikha.Fragment.AllGenderFragment;
+import com.example.deepak.brikha.Fragment.FemaleFragment;
 import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
+import com.example.deepak.brikha.Fragment.MaleFragment;
 import com.example.deepak.brikha.Fragment.NameDetailsFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.ObjectSerializer;
@@ -35,6 +44,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+
 
 public class MainActivity extends AppCompatActivity implements ListOfNamesFragment.OnListClickListener{
     final public static String BABY_LIST= "baby_list";
@@ -43,19 +56,35 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     final public static String LIST_FRAG = "LIST_FRAG",DETAIL="DETAIL";
     public static boolean twoPane = false;
     public final static int[] PassInfo = new int[2];
-    public static List<BabyName> babyNameList, mbabyNameList, fbabyNameList,searchbabyNameList;
     public static Set<Integer> set;
     private boolean dataFetech = false;
     ProgressDialog progressDialog;
-
+    AllGenderFragment Fragment1;
+    MaleFragment Fragment3;
+    FemaleFragment Fragment2;
+    ViewPager viewPager;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do any action here. Now we are moving to next page
+                Intent mySuperIntent = new Intent(MainActivity.this, SplashActivity.class);
+                startActivity(mySuperIntent);
+                /* This 'finish()' is for exiting the app when back button pressed
+                 *  from Home page which is ActivityHome
+                 */
+                finish();
+            }
+        }, 3000);
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
         fbabyNameList = new ArrayList<>();
-        searchbabyNameList = new ArrayList<>();
+        ListOfNamesFragment.searchbabyNameList = new ArrayList<>();
         set = new HashSet<>();
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
@@ -87,22 +116,72 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
         }
 
-//        if(dataFetech){
-//            try {
-//                new MainActivity.MyTask().execute(this);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+
+        setContentView(R.layout.activity_main);
+        setupViewPager();
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+
+
+
         MobileAds.initialize(this, "ca-app-pub-3863741641307399~5978419919");
     }
+
+    // Add Fragments to Tabs
+    private void setupViewPager() {
+        Adapter adapter = new Adapter(getSupportFragmentManager());
+        viewPager =  findViewById(R.id.viewpager);
+        Fragment1 = new AllGenderFragment();
+        Fragment2 = new FemaleFragment();
+        Fragment3 = new MaleFragment();
+        adapter.addFragment(Fragment1, "All");
+        adapter.addFragment(Fragment2, "Girl");
+        adapter.addFragment(Fragment3, "Boy");
+        viewPager.setAdapter(adapter);
+    }
+
+    static class Adapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
 
     public void SetViewPager(){
         if(dataFetech) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-
-                Toast.makeText(this,"Data is now Fetched",Toast.LENGTH_SHORT).show();
+                setupViewPager();
                 if (findViewById(R.id.linear_layout_tablet) != null) {
+                    toolbar = findViewById(R.id.toolbar);
+                    toolbar.setVisibility(View.GONE);
+
                     Log.d("Brikha","Can't get data here ");
                     twoPane = true;
                     ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
@@ -224,7 +303,7 @@ private class MyTask extends AsyncTask<Object, Void, String> {
                         babyName.setIs_boy(true);
                     }else
                         babyName.setIs_boy(false);
-                babyNameList.add(i,babyName);}
+                    babyNameList.add(i,babyName);}
             }
         } catch (JSONException e) {
             e.printStackTrace();
