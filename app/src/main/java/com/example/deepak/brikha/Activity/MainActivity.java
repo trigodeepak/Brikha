@@ -241,9 +241,12 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.info:
-                Intent intent = new Intent(MainActivity.this,Info_activity.class);
+                Intent intent = new Intent(MainActivity.this,SearchingActivity.class);
                 startActivity(intent);
                 return true;
+//            case R.id.search:
+//                intent = new Intent(MainActivity.this,SearchingActivity.class);
+//                startActivity(intent);
 
             default:
                 return super.onOptionsItemSelected(item);

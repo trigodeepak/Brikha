@@ -21,6 +21,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
@@ -36,13 +37,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
     @Override
     public Character getCharacterForElement(int element) {
         try {
-            Character c;
-            switch (test) {
-                case 0 : c = babyNameList.get(element).getName().charAt(0); break;
-                case 1 : c = fbabyNameList.get(element).getName().charAt(0); break;
-                case 2 : c = mbabyNameList.get(element).getName().charAt(0); break;
-                default: c = '0';
-            }
+            Character c = babyNameList.get(element).getName().charAt(0);
             if (Character.isDigit(c)) {
                 c = '#';
             }
@@ -58,6 +53,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
         TextView name,gender;
         public MyViewHolder(final View view) {
             super(view);
+            //todo crash in the tab after showing ad
             font = Typeface.createFromAsset(view.getContext().getAssets(),"fonts/syriac_font.ttf");
             mInterstitial = new InterstitialAd(view.getContext());
             mInterstitial.setAdUnitId("ca-app-pub-3863741641307399/5016282917");
@@ -140,4 +136,12 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
     public int getItemCount() {
         return babyNameList.size();
     }
+
+    public void updateList(List<BabyName> newList){
+        babyNameList = new ArrayList<>();
+        babyNameList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
+
 }

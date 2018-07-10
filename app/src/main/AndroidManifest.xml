@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_brikha_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MainActivity"></activity>
+        <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.ShowDetailsActivity" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter android:label="Brikha">
@@ -21,10 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Info_activity"></activity>
+        <activity android:name=".Activity.Info_activity" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+        <activity android:name=".Activity.SearchingActivity"></activity>
     </application>
 
 </manifest>
