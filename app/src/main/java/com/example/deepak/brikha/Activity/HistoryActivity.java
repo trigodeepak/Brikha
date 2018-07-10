@@ -1,6 +1,5 @@
 package com.example.deepak.brikha.Activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 
-public class SearchingActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class HistoryActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private RecyclerView recyclerView;
     private DispalyBabyNameAdapter mAdapter;
@@ -36,7 +36,8 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new DispalyBabyNameAdapter(babyNameList,0);
+        //todo this will show the name correctly but difficulty in passing the correct list to the display activity
+        mAdapter = new DispalyBabyNameAdapter(historybabyNameList,2);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -46,17 +47,10 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.history_menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search);
-        //todo app crash while going back
-        menuItem.expandActionView();
         SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.setIconifiedByDefault(true);
-//        searchView.setFocusable(true);
-//        searchView.setIconified(false);
-//        searchView.requestFocusFromTouch();
-
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -79,7 +73,7 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     public boolean onQueryTextChange(String s) {
         String userInput = s.toLowerCase();
         List<BabyName> newList = new ArrayList<>();
-        for(BabyName babyName:babyNameList){
+        for(BabyName babyName:historybabyNameList){
             if(babyName.getName().toLowerCase().contains(userInput)){
                 newList.add(babyName);
             }

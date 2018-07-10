@@ -29,7 +29,7 @@ import java.util.List;
 
 public class ListOfNamesFragment extends Fragment {
 
-    public static List<BabyName> babyNameList, mbabyNameList, fbabyNameList,searchbabyNameList;
+    public static List<BabyName> babyNameList, mbabyNameList, fbabyNameList,historybabyNameList;
 
     public static OnListClickListener mListClickListener;
 

@@ -51,6 +51,7 @@ import java.util.Set;
 
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
 
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
         fbabyNameList = new ArrayList<>();
-        ListOfNamesFragment.searchbabyNameList = new ArrayList<>();
+        ListOfNamesFragment.historybabyNameList = new ArrayList<>();
         set = new HashSet<>();
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
 //        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
-
+        AddtoHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
             PassInfo[0]= position;
@@ -229,10 +230,19 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     }
 
+    public void AddtoHistoryList(int pos,int f){
+        switch (f){
+            case 0:historybabyNameList.add(babyNameList.get(pos)); break;
+            case 1:historybabyNameList.add(babyNameList.get(pos)); break;
+            case 2:historybabyNameList.add(babyNameList.get(pos)); break;
+
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.info_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -241,13 +251,15 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.info:
-                Intent intent = new Intent(MainActivity.this,SearchingActivity.class);
+                Intent intent = new Intent(MainActivity.this,Info_activity.class);
                 startActivity(intent);
                 return true;
-//            case R.id.search:
-//                intent = new Intent(MainActivity.this,SearchingActivity.class);
-//                startActivity(intent);
-
+            case R.id.search:
+                intent = new Intent(MainActivity.this,SearchingActivity.class);
+                startActivity(intent);
+            case R.id.history:
+                intent = new Intent(MainActivity.this,HistoryActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

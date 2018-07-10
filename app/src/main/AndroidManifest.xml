@@ -25,7 +25,8 @@
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-        <activity android:name=".Activity.SearchingActivity"></activity>
+        <activity android:name=".Activity.SearchingActivity" />
+        <activity android:name=".Activity.HistoryActivity"></activity>
     </application>
 
 </manifest>
