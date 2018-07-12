@@ -1,13 +1,10 @@
 package com.example.deepak.brikha.Activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.deepak.brikha.Fragment.AllGenderFragment;
@@ -63,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public static boolean twoPane = false;
     public final static int[] PassInfo = new int[2];
     public static Set<Integer> set;
-    private boolean dataFetech = false;
+    private boolean isDataFetch = false;
     ProgressDialog progressDialog;
     AllGenderFragment Fragment1;
     MaleFragment Fragment3;
@@ -89,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         progressDialog.setCancelable(false);
 
         setContentView(R.layout.activity_main);
-        Log.d("Brikha", String.valueOf(dataFetech));
+        Log.d("Brikha", String.valueOf(isDataFetch));
         try {
             babyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             set = (HashSet<Integer>) ObjectSerializer.deserialize(prefs.getString(HASH_CODE, ObjectSerializer.serialize(new HashSet<Integer>())));
@@ -167,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
 
     public void SetViewPager(){
-        if(dataFetech) {
+        if(isDataFetch) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             setupViewPager();
             if (findViewById(R.id.linear_layout_tablet) != null) {
@@ -206,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
 //        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
-        AddtoHistoryList(position,fragmentNumber);
+        AddToHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
             PassInfo[0]= position;
@@ -220,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                 case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
                 case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
                 case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
+                case 3:bundle.putSerializable("BabyNameList",(Serializable) babyNameList); break;
+                case 4:bundle.putSerializable("BabyNameList",(Serializable) historybabyNameList); break;
             }
 
             NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
@@ -230,12 +228,11 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     }
 
-    public void AddtoHistoryList(int pos,int f){
+    public void AddToHistoryList(int pos, int f){
         switch (f){
             case 0:historybabyNameList.add(babyNameList.get(pos)); break;
             case 1:historybabyNameList.add(babyNameList.get(pos)); break;
             case 2:historybabyNameList.add(babyNameList.get(pos)); break;
-
         }
     }
 
@@ -250,16 +247,19 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.info:
-                Intent intent = new Intent(MainActivity.this,Info_activity.class);
+
+            case R.id.search:
+                Intent intent = new Intent(MainActivity.this,SearchingActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.search:
-                intent = new Intent(MainActivity.this,SearchingActivity.class);
-                startActivity(intent);
             case R.id.history:
                 intent = new Intent(MainActivity.this,HistoryActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.info:
+                intent = new Intent(MainActivity.this,Info_activity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             e.printStackTrace();
         }
         if(Flag){
-            if(dataFetech) {
+            if(isDataFetch) {
                 Collections.sort(babyNameList);
             }
             makeMaleFemaleBabyList();
@@ -375,8 +375,8 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     }
 
     public void storeToSharedPreferences(){
-        if(!dataFetech) {
-            dataFetech = true;
+        if(!isDataFetch) {
+            isDataFetch = true;
             SetViewPager();
         }
         Log.d("Setting Up View Pager","View Pager set");

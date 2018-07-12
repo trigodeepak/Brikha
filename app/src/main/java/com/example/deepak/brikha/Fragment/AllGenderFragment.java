@@ -9,8 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
-import com.example.deepak.brikha.Activity.MainActivity;
+import com.example.deepak.brikha.Adapters.DisplayBabyNameAdapter;
 import com.example.deepak.brikha.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -23,7 +22,7 @@ import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameLis
 public class AllGenderFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private DispalyBabyNameAdapter mAdapter;
+    private DisplayBabyNameAdapter mAdapter;
     private AdView mAdView;
 
 
@@ -40,7 +39,7 @@ public class AllGenderFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
 
-        mAdapter = new DispalyBabyNameAdapter(babyNameList,0);
+        mAdapter = new DisplayBabyNameAdapter(babyNameList,0);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

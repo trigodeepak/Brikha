@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
 public class ShowDetailsActivity extends AppCompatActivity {
@@ -40,6 +41,8 @@ public class ShowDetailsActivity extends AppCompatActivity {
             case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
             case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
             case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
+            case 3:bundle.putSerializable("BabyNameList",(Serializable) babyNameList); break;
+            case 4:bundle.putSerializable("BabyNameList",(Serializable) historybabyNameList); break;
         }
 
         NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();

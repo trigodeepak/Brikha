@@ -11,20 +11,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.deepak.brikha.Adapters.DispalyBabyNameAdapter;
+import com.example.deepak.brikha.Adapters.DisplayBabyNameAdapter;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 
 public class HistoryActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private RecyclerView recyclerView;
-    private DispalyBabyNameAdapter mAdapter;
+    private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
 
 
@@ -37,7 +36,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recycler_view);
         //todo this will show the name correctly but difficulty in passing the correct list to the display activity
-        mAdapter = new DispalyBabyNameAdapter(historybabyNameList,2);
+        mAdapter = new DisplayBabyNameAdapter(historybabyNameList,4);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

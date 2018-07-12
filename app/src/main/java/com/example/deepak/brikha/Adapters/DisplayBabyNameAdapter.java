@@ -3,7 +3,6 @@ package com.example.deepak.brikha.Adapters;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.deepak.brikha.Activity.MainActivity;
 import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
 import com.example.deepak.brikha.Model.BabyName;
 import com.example.deepak.brikha.R;
@@ -24,10 +22,7 @@ import com.turingtechnologies.materialscrollbar.INameableAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
-
-public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyNameAdapter.MyViewHolder> implements INameableAdapter {
+public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyNameAdapter.MyViewHolder> implements INameableAdapter {
 
     private List<BabyName> babyNameList;
     private InterstitialAd mInterstitial;
@@ -72,6 +67,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
                                 AdRequest adRequest = new AdRequest.Builder()
                                         .build();
                                 mInterstitial.loadAd(adRequest);
+
                                 ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
 
                             }
@@ -89,7 +85,7 @@ public class DispalyBabyNameAdapter extends RecyclerView.Adapter<DispalyBabyName
 
     }
 
-    public DispalyBabyNameAdapter(List<BabyName> babyNameList,int i) {
+    public DisplayBabyNameAdapter(List<BabyName> babyNameList, int i) {
         this.babyNameList = babyNameList;
         this.test = i;
     }
