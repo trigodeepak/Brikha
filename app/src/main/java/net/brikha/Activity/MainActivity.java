@@ -203,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
 //        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
-        //todo I have broken something else this is behaving abnormally
+        //todo I have broken something else this is behaving abnormally Search clicks not going to history something is really messed up check it
+        //over
         AddToHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);

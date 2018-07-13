@@ -144,8 +144,8 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
 
     public void changeList(int item){
         switch (item){
-            case 0:NamesList = mbabyNameList; PassInfo[1] = 2; test[0] = 6; break;
-            case 1:NamesList = fbabyNameList; PassInfo[1] = 1; test[0] = 5; break;
+            case 0:NamesList = mbabyNameList; PassInfo[1] = 2; test = 6; break;
+            case 1:NamesList = fbabyNameList; PassInfo[1] = 1; test = 5; break;
             case 2:NamesList = babyNameList; PassInfo[1] = 0; break;
         }
         mAdapter.updateList(NamesList);
