@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3863741641307399~5978419919");
     }
 
@@ -202,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
 //        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
+        //todo I have broken something else this is behaving abnormally
         AddToHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
@@ -214,7 +216,9 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             bundle.putInt("Index",position);
             switch (fragmentNumber) {
                 case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
+                case 5:
                 case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
+                case 6:
                 case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
                 case 3:bundle.putSerializable("BabyNameList",(Serializable) babyNameList); break;
                 case 4:bundle.putSerializable("BabyNameList",(Serializable) historybabyNameList); break;
@@ -230,9 +234,19 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     public void AddToHistoryList(int pos, int f){
         switch (f){
-            case 0:historybabyNameList.add(babyNameList.get(pos)); break;
-            case 1:historybabyNameList.add(babyNameList.get(pos)); break;
-            case 2:historybabyNameList.add(babyNameList.get(pos)); break;
+            case 0: checkAlreadyInHistory(babyNameList.get(pos)); historybabyNameList.add(babyNameList.get(pos)); break;
+            case 1: checkAlreadyInHistory(fbabyNameList.get(pos)); historybabyNameList.add(fbabyNameList.get(pos)); break;
+            case 2: checkAlreadyInHistory(mbabyNameList.get(pos)); historybabyNameList.add(mbabyNameList.get(pos)); break;
+        }
+    }
+    public void checkAlreadyInHistory(BabyName b){
+        int i=0;
+        for (BabyName name : historybabyNameList) {
+            i++;
+            if (b.getName() == name.getName()) {
+                historybabyNameList.remove(i);
+                return ;
+            }
         }
     }
 

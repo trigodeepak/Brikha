@@ -24,7 +24,11 @@ import net.brikha.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.brikha.Activity.MainActivity.PassInfo;
+import static net.brikha.Adapters.DisplayBabyNameAdapter.test;
 import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
 
 public class SearchingActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
@@ -33,20 +37,32 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
     SearchView searchView;
+    List<BabyName> NamesList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
+        NamesList = new ArrayList<>();
 
         Log.d("Brikha","Inside search activity");
         Log.d("Brikha", "The value"+String.valueOf(babyNameList.size()));
 
+        NamesList = babyNameList;
+
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Search");
         setSupportActionBar(toolbar);
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         recyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new DisplayBabyNameAdapter(babyNameList,3);
+        mAdapter = new DisplayBabyNameAdapter(NamesList,3);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -59,14 +75,8 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         inflater.inflate(R.menu.search_menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search);
-        //todo app crash while going back
         menuItem.expandActionView();
         searchView = (SearchView) menuItem.getActionView();
-//        searchView.setIconifiedByDefault(true);
-//        searchView.setFocusable(true);
-//        searchView.setIconified(false);
-//        searchView.requestFocusFromTouch();
-
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -75,7 +85,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-
             case R.id.filter:
                 final String[] grpname = new String[3];
                 grpname[0] = "Boy";
@@ -83,18 +92,22 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
                 grpname[2] = "Both";
                 AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
                 alt_bld.setIcon(R.drawable.ic_gender);
-                alt_bld.setTitle("Select a Gender");
+                alt_bld.setTitle("Choose a Gender");
                 alt_bld.setSingleChoiceItems(grpname, -1, new DialogInterface
                         .OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        Toast.makeText(getApplicationContext(),
-                                "Gender Chosen = "+grpname[item], Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();// dismiss the alertbox after chose option
+                        changeList(item);
+                        dialog.dismiss();
 
                     }
                 });
                 AlertDialog alert = alt_bld.create();
                 alert.show();
+                return true;
+
+            case android.R.id.home:
+                finish();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -116,15 +129,29 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
             }
         }
         mAdapter.updateList(newList);
+        mAdapter.notifyDataSetChanged();
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-        } else {
-            super.onBackPressed();
+//    @Override
+//    public void onBackPressed() {
+//        if (!searchView.isIconified()) {
+//            searchView.setIconified(true);
+//        } else {
+//            finish();
+//        }
+//    }
+
+    public void changeList(int item){
+        switch (item){
+            case 0:NamesList = mbabyNameList; PassInfo[1] = 2; test[0] = 6; break;
+            case 1:NamesList = fbabyNameList; PassInfo[1] = 1; test[0] = 5; break;
+            case 2:NamesList = babyNameList; PassInfo[1] = 0; break;
         }
+        mAdapter.updateList(NamesList);
+
+        mAdapter.notifyDataSetChanged();
+        recyclerView.getLayoutManager().scrollToPosition(0);
+
     }
 }

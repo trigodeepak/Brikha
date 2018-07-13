@@ -34,7 +34,15 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         setContentView(R.layout.activity_searching);
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("History");
+
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+
         recyclerView = findViewById(R.id.recycler_view);
         //todo this will show the name correctly but difficulty in passing the correct list to the display activity
         mAdapter = new DisplayBabyNameAdapter(historybabyNameList,4);
@@ -55,14 +63,17 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public boolean onQueryTextSubmit(String s) {
@@ -79,6 +90,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
             }
         }
         mAdapter.updateList(newList);
+        mAdapter.notifyDataSetChanged();
         return true;
     }
 }
