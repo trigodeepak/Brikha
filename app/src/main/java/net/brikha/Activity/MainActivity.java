@@ -1,17 +1,17 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,15 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.deepak.brikha.Fragment.AllGenderFragment;
-import com.example.deepak.brikha.Fragment.FemaleFragment;
-import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
-import com.example.deepak.brikha.Fragment.MaleFragment;
-import com.example.deepak.brikha.Fragment.NameDetailsFragment;
-import com.example.deepak.brikha.Model.BabyName;
-import com.example.deepak.brikha.ObjectSerializer;
-import com.example.deepak.brikha.R;
 import com.google.android.gms.ads.MobileAds;
+
+import net.brikha.Fragment.AllGenderFragment;
+import net.brikha.Fragment.FemaleFragment;
+import net.brikha.Fragment.ListOfNamesFragment;
+import net.brikha.Fragment.MaleFragment;
+import net.brikha.Fragment.NameDetailsFragment;
+import net.brikha.Model.BabyName;
+import net.brikha.ObjectSerializer;
+import net.brikha.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,10 +46,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
 
 public class MainActivity extends AppCompatActivity implements ListOfNamesFragment.OnListClickListener{
@@ -70,12 +71,11 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //todo kabhi tool bar kabhi nhi
-
+        //todo the layout messed up
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
         fbabyNameList = new ArrayList<>();
-        ListOfNamesFragment.historybabyNameList = new ArrayList<>();
+        historybabyNameList = new ArrayList<>();
         set = new HashSet<>();
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);

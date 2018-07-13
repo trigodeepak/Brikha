@@ -1,12 +1,13 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
-import com.example.deepak.brikha.R;
+
+import net.brikha.R;
 
 public class Info_activity extends AppCompatActivity {
 

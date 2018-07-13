@@ -1,4 +1,4 @@
-package com.example.deepak.brikha.Fragment;
+package net.brikha.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,14 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.deepak.brikha.Adapters.DisplayBabyNameAdapter;
-import com.example.deepak.brikha.R;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
 import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+import net.brikha.Adapters.DisplayBabyNameAdapter;
+import net.brikha.R;
+
+import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
 public class MaleFragment extends Fragment {
     private RecyclerView recyclerView;

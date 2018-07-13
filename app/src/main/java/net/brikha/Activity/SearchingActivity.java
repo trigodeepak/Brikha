@@ -1,33 +1,31 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Toast;
 
-import com.example.deepak.brikha.Adapters.DisplayBabyNameAdapter;
-import com.example.deepak.brikha.Model.BabyName;
-import com.example.deepak.brikha.R;
+
+
+import net.brikha.Adapters.DisplayBabyNameAdapter;
+import net.brikha.Model.BabyName;
+import net.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
+
 
 public class SearchingActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
@@ -77,22 +75,27 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+
             case R.id.filter:
-//                final Dialog dialog = new Dialog(this);
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                dialog.setContentView(R.layout.radiobutton_dialog);
-                Rect displayRectangle = new Rect();
-                Window window = this.getWindow();
-                window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
-                LayoutInflater inflater = LayoutInflater.from(this);
-                View builderView = inflater.inflate(R.layout.radiobutton_dialog, null);
-                builderView.setMinimumWidth((int) (displayRectangle.width() * 0.8f));
-                builderView.setMinimumHeight((int) (displayRectangle.height() * 0.8f));
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setView(builderView);
-                AlertDialog alert = builder.create();
+                final String[] grpname = new String[3];
+                grpname[0] = "Boy";
+                grpname[1] = "Girl";
+                grpname[2] = "Both";
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+                alt_bld.setIcon(R.drawable.ic_gender);
+                alt_bld.setTitle("Select a Gender");
+                alt_bld.setSingleChoiceItems(grpname, -1, new DialogInterface
+                        .OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        Toast.makeText(getApplicationContext(),
+                                "Gender Chosen = "+grpname[item], Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();// dismiss the alertbox after chose option
+
+                    }
+                });
+                AlertDialog alert = alt_bld.create();
                 alert.show();
-//                dialog.show();
+
             default:
                 return super.onOptionsItemSelected(item);
         }

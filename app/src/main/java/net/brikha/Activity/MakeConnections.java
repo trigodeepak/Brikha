@@ -1,4 +1,4 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
 public interface MakeConnections {
     boolean twoPane = false;

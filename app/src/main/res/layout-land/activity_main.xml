@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linear_layout_tablet"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:id="@+id/list"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
         android:layout_weight="1"
-        >
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="#EEEEEE">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EEEEEE"
+            android:orientation="vertical">
 
 
             <android.support.design.widget.AppBarLayout
@@ -52,21 +50,21 @@
 
     <FrameLayout
         android:id="@+id/list_fragment"
+        class="com.example.deepak.brikha.Fragment.NameDetailsFragment"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        class = "com.example.deepak.brikha.Fragment.NameDetailsFragment"/>
+        android:layout_height="match_parent" />
 
     <View
         android:layout_width="1dp"
-        android:layout_weight="0"
         android:layout_height="match_parent"
-        android:background="#455A64"/>
+        android:layout_weight="0"
+        android:background="#455A64" />
 
     <FrameLayout
         android:id="@+id/display_fragment"
+        class="com.example.deepak.brikha.Fragment.NameDetailsFragment"
         android:layout_width="wrap_content"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        class = "com.example.deepak.brikha.Fragment.NameDetailsFragment"/>
+        android:layout_weight="1"/>
 
 </LinearLayout>

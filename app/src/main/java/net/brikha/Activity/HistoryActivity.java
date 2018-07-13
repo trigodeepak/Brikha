@@ -1,7 +1,7 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +11,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.deepak.brikha.Adapters.DisplayBabyNameAdapter;
-import com.example.deepak.brikha.Model.BabyName;
-import com.example.deepak.brikha.R;
+
+import net.brikha.Adapters.DisplayBabyNameAdapter;
+import net.brikha.Model.BabyName;
+import net.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 
 public class HistoryActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 

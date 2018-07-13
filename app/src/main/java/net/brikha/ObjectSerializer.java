@@ -1,6 +1,4 @@
-package com.example.deepak.brikha;
-
-import android.util.Log;
+package net.brikha;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

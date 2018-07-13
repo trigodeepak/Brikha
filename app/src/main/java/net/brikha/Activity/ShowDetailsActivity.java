@@ -1,21 +1,20 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.deepak.brikha.Fragment.NameDetailsFragment;
-import com.example.deepak.brikha.R;
+
+import net.brikha.Fragment.NameDetailsFragment;
+import net.brikha.R;
 
 import java.io.Serializable;
-
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.babyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
-import static com.example.deepak.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
+import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
 public class ShowDetailsActivity extends AppCompatActivity {
 

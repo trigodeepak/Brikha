@@ -1,4 +1,4 @@
-package com.example.deepak.brikha.Model;
+package net.brikha.Model;
 
 import android.support.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-package com.example.deepak.brikha.Adapters;
+package net.brikha.Adapters;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.deepak.brikha.Fragment.ListOfNamesFragment;
-import com.example.deepak.brikha.Model.BabyName;
-import com.example.deepak.brikha.R;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
+import net.brikha.Fragment.ListOfNamesFragment;
+import net.brikha.Model.BabyName;
+import net.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,39 +48,48 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
         TextView name,gender;
         public MyViewHolder(final View view) {
             super(view);
-            //todo crash in the tab after showing ad
             font = Typeface.createFromAsset(view.getContext().getAssets(),"fonts/syriac_font.ttf");
             mInterstitial = new InterstitialAd(view.getContext());
             mInterstitial.setAdUnitId("ca-app-pub-3863741641307399/5016282917");
-            AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-            mInterstitial.loadAd(request);
-            name =  view.findViewById(R.id.tv_name);
+            name = view.findViewById(R.id.tv_name);
             gender = view.findViewById(R.id.tv_gender);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mInterstitial.isLoaded()){
-                        mInterstitial.show();
-                        mInterstitial.setAdListener(new AdListener() {
-                            @Override
-                            public void onAdClosed() {
-                                AdRequest adRequest = new AdRequest.Builder()
-                                        .build();
-                                mInterstitial.loadAd(adRequest);
+            //todo Temporary solution to the ad
+            try {
+                AdRequest request = new AdRequest.Builder().build();
+                mInterstitial.loadAd(request);
 
-                                ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mInterstitial.isLoaded()) {
+                            mInterstitial.show();
+                            mInterstitial.setAdListener(new AdListener() {
+                                @Override
+                                public void onAdClosed() {
+                                    AdRequest adRequest = new AdRequest.Builder()
+                                            .build();
+                                    mInterstitial.loadAd(adRequest);
 
-                            }
-                        });}
+                                    ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(), test);
 
-                    // If it has not loaded due to any reason simply load the next activity
-                    else {
-                        ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(),test);
+                                }
+                            });
+                        }
 
+                        // If it has not loaded due to any reason simply load the next activity
+                        else {
+                            ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(), test);
+
+                        }
                     }
-                }
 
-            });
+                });
+            }
+            catch (Exception e){
+                Log.e("Brikha", String.valueOf(e.getStackTrace())+" ");
+                ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(), test);
+
+            }
         }
 
     }

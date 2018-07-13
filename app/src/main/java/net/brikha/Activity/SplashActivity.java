@@ -1,11 +1,12 @@
-package com.example.deepak.brikha.Activity;
+package net.brikha.Activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.example.deepak.brikha.R;
+
+import net.brikha.R;
 
 public class SplashActivity extends AppCompatActivity {
 

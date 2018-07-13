@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "com.example.android.deepak.brikha"
+        applicationId "net.brikha"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 2

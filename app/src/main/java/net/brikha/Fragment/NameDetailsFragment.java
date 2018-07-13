@@ -1,24 +1,23 @@
-package com.example.deepak.brikha.Fragment;
+package net.brikha.Fragment;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.deepak.brikha.Activity.MainActivity;
-import com.example.deepak.brikha.Model.BabyName;
-import com.example.deepak.brikha.R;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import net.brikha.Model.BabyName;
+import net.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;

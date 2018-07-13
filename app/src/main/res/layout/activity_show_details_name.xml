@@ -10,9 +10,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:focusableInTouchMode="true"
+            android:descendantFocusability="blocksDescendants">
 
         <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/card_view"
@@ -193,7 +196,7 @@
             android:layout_below="@+id/card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             ads:adSize="MEDIUM_RECTANGLE"
             ads:adUnitId="ca-app-pub-3863741641307399/6569021825">
         </com.google.android.gms.ads.AdView>
@@ -205,12 +208,13 @@
             android:layout_below="@id/adView_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
+            android:layout_marginBottom="10dp"
             ads:adUnitId="ca-app-pub-3863741641307399/6569021825">
         </com.google.android.gms.ads.AdView>
-        </RelativeLayout>
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
