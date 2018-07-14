@@ -43,10 +43,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
 
-        Log.d("Brikha","Inside search activity");
-        Log.d("Brikha", "The value"+String.valueOf(babyNameList.size()));
-
-
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Search");
         setSupportActionBar(toolbar);

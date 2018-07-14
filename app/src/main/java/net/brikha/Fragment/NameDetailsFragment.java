@@ -16,11 +16,14 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import net.brikha.Activity.MainActivity;
 import net.brikha.Model.BabyName;
 import net.brikha.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 
 public class NameDetailsFragment extends Fragment {
     BabyName babyName;
@@ -39,7 +42,6 @@ public class NameDetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.activity_show_details_name,container,false);
 
-//        index = MainActivity.PassInfo[0];
         index = 0;
         BabyNameList = new ArrayList<>();
         Bundle b = getArguments();
@@ -50,10 +52,6 @@ public class NameDetailsFragment extends Fragment {
 
         mAdView_mob = rootView.findViewById(R.id.adView_mob);
         mAdView_tab = rootView.findViewById(R.id.adView_tab);
-
-
-//        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
 
@@ -119,8 +117,25 @@ public class NameDetailsFragment extends Fragment {
                 name.setTextColor(Color.parseColor("#ff26ce"));
                 syriac.setTextColor(Color.parseColor("#ff26ce"));
             }
+            checkAlreadyInHistory(babyName);
+            historybabyNameList.add(0,babyName);
         }
 
+    }
+    private void checkAlreadyInHistory(BabyName b){
+        int i=0;
+        for (BabyName name : historybabyNameList) {
+            if (b.getName().equals(name.getName())) {
+                historybabyNameList.remove(i);
+                return ;
+            }
+            i++;
+        }
+        int size = historybabyNameList.size();
+        while (size > 29) {
+            historybabyNameList.remove(size - 1);
+            size--;
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package net.brikha.Adapters;
 
-import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;

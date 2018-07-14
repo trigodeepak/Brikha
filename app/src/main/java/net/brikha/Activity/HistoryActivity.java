@@ -45,7 +45,6 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
 
 
         recyclerView = findViewById(R.id.recycler_view);
-        Collections.reverse(historybabyNameList);
         mAdapter = new DisplayBabyNameAdapter(historybabyNameList,4);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -69,7 +68,6 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
-                Collections.reverse(historybabyNameList);
                 finish();
                 return true;
             default:

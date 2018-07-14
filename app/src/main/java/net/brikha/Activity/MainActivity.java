@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -74,6 +73,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //todo the layout messed up
+        //todo the layout of fragment should be change to accommodate the last name
+        //todo reduce calculation in the first go as it is very computationally heavy
+        //todo the list in Main activity doesn't go to the correct clicked item
+        //todo after search activity does behave abnormally Means not even before the search activity
+        //todo store history list to shared pref
+        //todo work on ads
+        //todo add no results match your query
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
         fbabyNameList = new ArrayList<>();
@@ -146,8 +152,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public Adapter(FragmentManager manager) {
+        private Adapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -161,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        private void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
@@ -178,10 +183,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             FragmentManager fragmentManager = getSupportFragmentManager();
             setupViewPager();
             if (findViewById(R.id.linear_layout_tablet) != null) {
-                toolbar = findViewById(R.id.toolbar);
-                toolbar.setVisibility(View.GONE);
-
-                Log.d("Brikha","Can't get data here ");
                 twoPane = true;
                 ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
                 Bundle bundle = new Bundle();
@@ -202,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         }
         else{
             try {
-                Log.d("Brikha ","Fetching for the first time");
                 new MainActivity.MyTask().execute(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -212,8 +212,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
-//        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
-
         AddToHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
@@ -243,23 +241,30 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     }
 
     public void AddToHistoryList(int pos, int f){
+        //todo index out of bound error
         switch (f){
             case 3:
-            case 0: checkAlreadyInHistory(babyNameList.get(pos)); historybabyNameList.add(babyNameList.get(pos)); break;
+            case 0: checkAlreadyInHistory(babyNameList.get(pos)); historybabyNameList.add(0,babyNameList.get(pos)); break;
             case 5:
-            case 1: checkAlreadyInHistory(fbabyNameList.get(pos)); historybabyNameList.add(fbabyNameList.get(pos)); break;
+            case 1: checkAlreadyInHistory(fbabyNameList.get(pos)); historybabyNameList.add(0,fbabyNameList.get(pos)); break;
             case 6:
-            case 2: checkAlreadyInHistory(mbabyNameList.get(pos)); historybabyNameList.add(mbabyNameList.get(pos)); break;
+            case 2: checkAlreadyInHistory(mbabyNameList.get(pos)); historybabyNameList.add(0,mbabyNameList.get(pos)); break;
         }
     }
-    public void checkAlreadyInHistory(BabyName b){
+    private void checkAlreadyInHistory(BabyName b){
         int i=0;
         for (BabyName name : historybabyNameList) {
-            i++;
             if (b.getName().equals(name.getName())) {
                 historybabyNameList.remove(i);
                 return ;
             }
+            i++;
+        }
+        int size = historybabyNameList.size();
+        //For deleting more than 30 entries
+        while (size > 29) {
+            historybabyNameList.remove(size - 1);
+            size--;
         }
     }
 
@@ -321,8 +326,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             else{
                 Log.d("Brikha","Connectivity Problem");
             }
-//        ViewPager viewPager =  findViewById(R.id.viewpager);
-//        setupViewPager(viewPager);
         }
     }
 
