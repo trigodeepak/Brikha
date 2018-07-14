@@ -1,6 +1,7 @@
 package net.brikha.Activity;
 
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;

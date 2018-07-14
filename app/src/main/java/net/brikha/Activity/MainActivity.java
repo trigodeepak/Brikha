@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import net.brikha.Fragment.AllGenderFragment;
@@ -118,6 +120,14 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         tabs.setupWithViewPager(viewPager);
 
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3863741641307399~5978419919");
+        AdView mAdView = findViewById(R.id.adView);
+//        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mAdView.loadAd(adRequest);
+
     }
 
     // Add Fragments to Tabs
@@ -203,8 +213,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
 //        Toast.makeText(this,"Position Clicked is "+position+"Fragment Number is : "+fragmentNumber,Toast.LENGTH_SHORT).show();
-        //todo I have broken something else this is behaving abnormally Search clicks not going to history something is really messed up check it
-        //over
+
         AddToHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
@@ -235,8 +244,11 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     public void AddToHistoryList(int pos, int f){
         switch (f){
+            case 3:
             case 0: checkAlreadyInHistory(babyNameList.get(pos)); historybabyNameList.add(babyNameList.get(pos)); break;
+            case 5:
             case 1: checkAlreadyInHistory(fbabyNameList.get(pos)); historybabyNameList.add(fbabyNameList.get(pos)); break;
+            case 6:
             case 2: checkAlreadyInHistory(mbabyNameList.get(pos)); historybabyNameList.add(mbabyNameList.get(pos)); break;
         }
     }
@@ -244,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         int i=0;
         for (BabyName name : historybabyNameList) {
             i++;
-            if (b.getName() == name.getName()) {
+            if (b.getName().equals(name.getName())) {
                 historybabyNameList.remove(i);
                 return ;
             }

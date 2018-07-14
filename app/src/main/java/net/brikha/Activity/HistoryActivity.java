@@ -17,6 +17,7 @@ import net.brikha.Model.BabyName;
 import net.brikha.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
@@ -44,7 +45,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
 
 
         recyclerView = findViewById(R.id.recycler_view);
-        //todo this will show the name correctly but difficulty in passing the correct list to the display activity
+        Collections.reverse(historybabyNameList);
         mAdapter = new DisplayBabyNameAdapter(historybabyNameList,4);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -68,6 +69,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
+                Collections.reverse(historybabyNameList);
                 finish();
                 return true;
             default:

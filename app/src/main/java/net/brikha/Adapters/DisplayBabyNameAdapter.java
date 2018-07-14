@@ -1,5 +1,6 @@
 package net.brikha.Adapters;
 
+import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -44,52 +45,16 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
         return '#';
     }
 
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name,gender;
         public MyViewHolder(final View view) {
             super(view);
             font = Typeface.createFromAsset(view.getContext().getAssets(),"fonts/syriac_font.ttf");
-            mInterstitial = new InterstitialAd(view.getContext());
-            mInterstitial.setAdUnitId("ca-app-pub-3863741641307399/5016282917");
             name = view.findViewById(R.id.tv_name);
             gender = view.findViewById(R.id.tv_gender);
-            //todo Temporary solution to the ad
-            try {
-                AdRequest request = new AdRequest.Builder().build();
-                mInterstitial.loadAd(request);
 
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mInterstitial.isLoaded()) {
-                            mInterstitial.show();
-                            mInterstitial.setAdListener(new AdListener() {
-                                @Override
-                                public void onAdClosed() {
-                                    AdRequest adRequest = new AdRequest.Builder()
-                                            .build();
-                                    mInterstitial.loadAd(adRequest);
-
-                                    ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(), test);
-
-                                }
-                            });
-                        }
-
-                        // If it has not loaded due to any reason simply load the next activity
-                        else {
-                            ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(), test);
-
-                        }
-                    }
-
-                });
-            }
-            catch (Exception e){
-                Log.e("Brikha", String.valueOf(e.getStackTrace())+" ");
-                ListOfNamesFragment.mListClickListener.OnListSelected(getLayoutPosition(), test);
-
-            }
         }
 
     }
@@ -101,9 +66,47 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_baby_name, parent, false);
-        return new MyViewHolder(itemView);
+        mInterstitial = new InterstitialAd(itemView.getContext());
+        mInterstitial.setAdUnitId("ca-app-pub-3863741641307399/5016282917");
+        AdRequest request = new AdRequest.Builder().build();
+        mInterstitial.loadAd(request);
+
+        final RecyclerView.ViewHolder holder = new MyViewHolder(itemView);
+        try {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mInterstitial.isLoaded()) {
+                        mInterstitial.show();
+                        mInterstitial.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                AdRequest adRequest = new AdRequest.Builder()
+                                        .build();
+                                mInterstitial.loadAd(adRequest);
+                                ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
+
+                            }
+                        });
+                    }
+
+                    // If it has not loaded due to any reason simply load the next activity
+                    else {
+                        ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
+                    }
+                }
+
+            });
+        }
+        catch (Exception e){
+            Log.e("Brikha", String.valueOf(e.getStackTrace())+" ");
+            ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
+
+        }
+
+        return (MyViewHolder) holder;
     }
 
 

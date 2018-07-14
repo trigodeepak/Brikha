@@ -30,26 +30,22 @@ import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
-
 public class SearchingActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private RecyclerView recyclerView;
     private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
     SearchView searchView;
-    List<BabyName> NamesList;
 
-
+    //todo ui freeze at clicking maybe because of ad
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
-        NamesList = new ArrayList<>();
 
         Log.d("Brikha","Inside search activity");
         Log.d("Brikha", "The value"+String.valueOf(babyNameList.size()));
 
-        NamesList = babyNameList;
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Search");
@@ -62,7 +58,7 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         }
 
         recyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new DisplayBabyNameAdapter(NamesList,3);
+        mAdapter = new DisplayBabyNameAdapter(babyNameList,3);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -108,7 +104,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
             case android.R.id.home:
                 finish();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -133,25 +128,17 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         return true;
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (!searchView.isIconified()) {
-//            searchView.setIconified(true);
-//        } else {
-//            finish();
-//        }
-//    }
-
     public void changeList(int item){
         switch (item){
-            case 0:NamesList = mbabyNameList; PassInfo[1] = 2; test = 6; break;
-            case 1:NamesList = fbabyNameList; PassInfo[1] = 1; test = 5; break;
-            case 2:NamesList = babyNameList; PassInfo[1] = 0; break;
+            case 0:mAdapter.updateList(mbabyNameList);  test = 6; break;
+            case 1:mAdapter.updateList(fbabyNameList); test = 5; break;
+            case 2:mAdapter.updateList(babyNameList); test = 3;break;
         }
-        mAdapter.updateList(NamesList);
-
         mAdapter.notifyDataSetChanged();
-        recyclerView.getLayoutManager().scrollToPosition(0);
-
+        try {
+            recyclerView.getLayoutManager().scrollToPosition(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

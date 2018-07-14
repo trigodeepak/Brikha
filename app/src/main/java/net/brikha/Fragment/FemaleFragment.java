@@ -35,13 +35,6 @@ public class FemaleFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
-        mAdView = view.findViewById(R.id.adView);
-//        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-
-        mAdView.loadAd(adRequest);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         mAdapter = new DisplayBabyNameAdapter(fbabyNameList,1);
@@ -49,6 +42,7 @@ public class FemaleFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        recyclerView.setHasFixedSize(true);
         ((DragScrollBar)view.findViewById(R.id.drag_scroll_bar)).setIndicator(new AlphabetIndicator(view.getContext()), true);;
 
         return view;
