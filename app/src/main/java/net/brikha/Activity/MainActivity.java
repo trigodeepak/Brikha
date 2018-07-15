@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         historybabyNameList = new ArrayList<>();
         set = new HashSet<>();
 
+
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         progressDialog = new ProgressDialog(this);
@@ -283,6 +284,9 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         switch (item.getItemId()) {
 
             case R.id.search:
+//                Intent intent = new Intent(this,Main2Activity.class);
+//                startActivity(intent);
+//                finish();
                 Intent intent = new Intent(MainActivity.this,SearchingActivity.class);
                 startActivity(intent);
                 return true;
@@ -408,18 +412,20 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public void storeToSharedPreferences(){
         if(!isDataFetch) {
             isDataFetch = true;
-            SetViewPager();
+            if(viewPager!=null){
+            SetViewPager();}
         }
-        Log.d("Setting Up View Pager","View Pager set");
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        try {
-            editor.putString(BABY_LIST,ObjectSerializer.serialize((Serializable) babyNameList));
-            editor.putString(HASH_CODE,ObjectSerializer.serialize((Serializable) set));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(viewPager!=null) {
+            SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            try {
+                editor.putString(BABY_LIST, ObjectSerializer.serialize((Serializable) babyNameList));
+                editor.putString(HASH_CODE, ObjectSerializer.serialize((Serializable) set));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            editor.apply();
         }
-        editor.apply();
     }
 
 }
