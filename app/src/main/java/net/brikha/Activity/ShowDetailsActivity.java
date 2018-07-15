@@ -39,12 +39,12 @@ public class ShowDetailsActivity extends AppCompatActivity {
         bundle.putInt("Index",MainActivity.PassInfo[0]);
         switch (MainActivity.PassInfo[1]) {
             case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
-            case 5:
             case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
-            case 6:
             case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
-            case 3:bundle.putSerializable("BabyNameList",(Serializable) babyNameList); break;
-            case 4:bundle.putSerializable("BabyNameList",(Serializable) historybabyNameList); break;
+            case 5:
+            case 6:
+            case 3:bundle.putSerializable("BabyNameList",(Serializable) SearchingActivity.searchBabyNameList); break;
+            case 4:bundle.putSerializable("BabyNameList",(Serializable) HistoryActivity.historySearchList); break;
         }
 
         NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();

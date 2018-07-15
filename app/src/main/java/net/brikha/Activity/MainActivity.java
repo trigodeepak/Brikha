@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     final public static String BABY_LIST= "baby_list";
     final public static String HASH_CODE= "hash_set";
     final public static String SHARED_PREFS_FILE = "BrikhasharedPref";
-    final public static String LIST_FRAG = "LIST_FRAG",DETAIL="DETAIL";
+    final public static String LIST_FRAG = "LIST_FRAG",DETAIL="DETAIL",HISTORYLIST = "HISTORYLIST";
     public static boolean twoPane = false;
     public final static int[] PassInfo = new int[2];
     public static Set<Integer> set;
@@ -73,12 +73,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //todo the layout messed up
-        //todo reduce calculation in the first go as it is very computationally heavy
-        //todo the list in Main activity doesn't go to the correct clicked item
-        //todo after search activity does behave abnormally Means not even before the search activity
-        //todo store history list to shared pref
         //todo work on ads
-        //todo the list should be changed accordingly
 
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
@@ -97,10 +92,11 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         try {
             babyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             set = (HashSet<Integer>) ObjectSerializer.deserialize(prefs.getString(HASH_CODE, ObjectSerializer.serialize(new HashSet<Integer>())));
+            historybabyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(HISTORYLIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             if(babyNameList.size()==0){
                 progressDialog.show();
                 SetViewPager();
-                Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Fetching data for the first time! Please Wait",Toast.LENGTH_LONG).show();
             }
             else {
                 makeMaleFemaleBabyList();
@@ -108,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         } catch (Exception e) {
             progressDialog.show();
             SetViewPager();
-            Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Fetching data for the first time! Please Wait ",Toast.LENGTH_LONG).show();
 
         }
 
@@ -121,10 +117,11 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(3);
 
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3863741641307399~5978419919");
         AdView mAdView = findViewById(R.id.adView);
-//        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
 
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
@@ -222,12 +219,12 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             bundle.putInt("Index",position);
             switch (fragmentNumber) {
                 case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
-                case 5:
                 case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
-                case 6:
                 case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
-                case 3:bundle.putSerializable("BabyNameList",(Serializable) babyNameList); break;
-                case 4:bundle.putSerializable("BabyNameList",(Serializable) historybabyNameList); break;
+                case 5:
+                case 6:
+                case 3:bundle.putSerializable("BabyNameList",(Serializable) SearchingActivity.searchBabyNameList); break;
+                case 4:bundle.putSerializable("BabyNameList",(Serializable) HistoryActivity.historySearchList); break;
             }
 
             NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
@@ -239,15 +236,22 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     }
 
     public void AddToHistoryList(int pos, int f){
-        //todo index out of bound error
         switch (f){
-            case 3:
             case 0: checkAlreadyInHistory(babyNameList.get(pos)); historybabyNameList.add(0,babyNameList.get(pos)); break;
-            case 5:
             case 1: checkAlreadyInHistory(fbabyNameList.get(pos)); historybabyNameList.add(0,fbabyNameList.get(pos)); break;
-            case 6:
             case 2: checkAlreadyInHistory(mbabyNameList.get(pos)); historybabyNameList.add(0,mbabyNameList.get(pos)); break;
+            case 5:
+            case 6:
+            case 3: checkAlreadyInHistory(SearchingActivity.searchBabyNameList.get(pos)); historybabyNameList.add(0,SearchingActivity.searchBabyNameList.get(pos)); break;
         }
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        try {
+            editor.putString(HISTORYLIST,ObjectSerializer.serialize((Serializable) historybabyNameList));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        editor.apply();
     }
     private void checkAlreadyInHistory(BabyName b){
         int i=0;
@@ -318,7 +322,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         }
         @Override
         protected void onPostExecute(String str) {
-            Log.d("Brikha Result",str+" ");
             if(str!=null){
                 parseResult(str);}
             else{

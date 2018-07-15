@@ -17,7 +17,6 @@ import net.brikha.Model.BabyName;
 import net.brikha.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
@@ -27,12 +26,16 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
     private RecyclerView recyclerView;
     private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
+    public static List<BabyName> historySearchList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
+        historySearchList = historybabyNameList;
+
+        //todo this is not working correct
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("History");
@@ -45,7 +48,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
 
 
         recyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new DisplayBabyNameAdapter(historybabyNameList,4);
+        mAdapter = new DisplayBabyNameAdapter(historySearchList,4);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -83,13 +86,13 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
     @Override
     public boolean onQueryTextChange(String s) {
         String userInput = s.toLowerCase();
-        List<BabyName> newList = new ArrayList<>();
+        historySearchList = new ArrayList<>();
         for(BabyName babyName:historybabyNameList){
             if(babyName.getName().toLowerCase().contains(userInput)){
-                newList.add(babyName);
+                historySearchList.add(babyName);
             }
         }
-        mAdapter.updateList(newList);
+        mAdapter.updateList(historySearchList);
         mAdapter.notifyDataSetChanged();
         return true;
     }

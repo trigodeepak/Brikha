@@ -13,8 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 
 
 import net.brikha.Adapters.DisplayBabyNameAdapter;
@@ -24,7 +22,6 @@ import net.brikha.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.brikha.Activity.MainActivity.PassInfo;
 import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
@@ -35,25 +32,29 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
     SearchView searchView;
+    public static List<BabyName> searchBabyNameList,OriginalList;
+    public final int[] fragNo = new int[1];
 
-    //todo ui freeze at clicking maybe because of ad
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Search activity worked
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Search");
         setSupportActionBar(toolbar);
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        searchBabyNameList = babyNameList;
+        OriginalList = babyNameList;
         recyclerView = findViewById(R.id.recycler_view);
-        mAdapter = new DisplayBabyNameAdapter(babyNameList,3);
+        mAdapter = new DisplayBabyNameAdapter(searchBabyNameList,3);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -64,7 +65,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-
         MenuItem menuItem = menu.findItem(R.id.search);
         menuItem.expandActionView();
         searchView = (SearchView) menuItem.getActionView();
@@ -77,19 +77,19 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.filter:
-                final String[] grpname = new String[3];
-                grpname[0] = "Boy";
-                grpname[1] = "Girl";
-                grpname[2] = "Both";
+                final String[] GroupName = new String[3];
+                GroupName[0] = "Boy";
+                GroupName[1] = "Girl";
+                GroupName[2] = "Both";
                 AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
                 alt_bld.setIcon(R.drawable.ic_gender);
                 alt_bld.setTitle("Choose a Gender");
-                alt_bld.setSingleChoiceItems(grpname, -1, new DialogInterface
+                alt_bld.setSingleChoiceItems(GroupName, -1, new DialogInterface
                         .OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        changeList(item);
+                    public void onClick(DialogInterface dialog, int ind) {
+                        fragNo[0] = ind;
+                        changeList(ind);
                         dialog.dismiss();
-
                     }
                 });
                 AlertDialog alert = alt_bld.create();
@@ -112,13 +112,14 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     @Override
     public boolean onQueryTextChange(String s) {
         String userInput = s.toLowerCase();
-        List<BabyName> newList = new ArrayList<>();
-        for(BabyName babyName:babyNameList){
+        searchBabyNameList = new ArrayList<>();
+        Log.d("Brikha", String.valueOf(OriginalList.size()));
+        for(BabyName babyName:OriginalList){
             if(babyName.getName().toLowerCase().contains(userInput)){
-                newList.add(babyName);
+                searchBabyNameList.add(babyName);
             }
         }
-        mAdapter.updateList(newList);
+        mAdapter.updateList(searchBabyNameList);
         mAdapter.notifyDataSetChanged();
         return true;
     }
@@ -126,10 +127,11 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     public void changeList(int item){
         //todo use any other way to change the test variable or just override some interface have onclick listener
         switch (item){
-            case 0:mAdapter.updateList(mbabyNameList); break;
-            case 1:mAdapter.updateList(fbabyNameList); break;
-            case 2:mAdapter.updateList(babyNameList); break;
+            case 0: searchBabyNameList = (mbabyNameList); OriginalList = mbabyNameList;break;
+            case 1: searchBabyNameList = (fbabyNameList); OriginalList = fbabyNameList;break;
+            case 2: searchBabyNameList = (babyNameList); OriginalList = mbabyNameList;break;
         }
+        mAdapter.updateList(searchBabyNameList);
         mAdapter.notifyDataSetChanged();
         try {
             recyclerView.getLayoutManager().scrollToPosition(0);
