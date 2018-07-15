@@ -26,7 +26,7 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
 
     private List<BabyName> babyNameList;
     private InterstitialAd mInterstitial;
-    public static int test;
+    private int test;
     Typeface font;
 
     @Override

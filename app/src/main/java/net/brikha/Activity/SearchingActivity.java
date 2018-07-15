@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.brikha.Activity.MainActivity.PassInfo;
-import static net.brikha.Adapters.DisplayBabyNameAdapter.test;
 import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
@@ -125,10 +124,11 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     }
 
     public void changeList(int item){
+        //todo use any other way to change the test variable or just override some interface have onclick listener
         switch (item){
-            case 0:mAdapter.updateList(mbabyNameList);  test = 6; break;
-            case 1:mAdapter.updateList(fbabyNameList); test = 5; break;
-            case 2:mAdapter.updateList(babyNameList); test = 3;break;
+            case 0:mAdapter.updateList(mbabyNameList); break;
+            case 1:mAdapter.updateList(fbabyNameList); break;
+            case 2:mAdapter.updateList(babyNameList); break;
         }
         mAdapter.notifyDataSetChanged();
         try {

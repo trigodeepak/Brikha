@@ -73,13 +73,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //todo the layout messed up
-        //todo the layout of fragment should be change to accommodate the last name
         //todo reduce calculation in the first go as it is very computationally heavy
         //todo the list in Main activity doesn't go to the correct clicked item
         //todo after search activity does behave abnormally Means not even before the search activity
         //todo store history list to shared pref
         //todo work on ads
-        //todo add no results match your query
+        //todo the list should be changed accordingly
+
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
         fbabyNameList = new ArrayList<>();
@@ -97,10 +97,8 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         try {
             babyNameList = (List<BabyName>) ObjectSerializer.deserialize(prefs.getString(BABY_LIST, ObjectSerializer.serialize(new ArrayList<BabyName>())));
             set = (HashSet<Integer>) ObjectSerializer.deserialize(prefs.getString(HASH_CODE, ObjectSerializer.serialize(new HashSet<Integer>())));
-            Log.d("Brikha","Fetched data already");
             if(babyNameList.size()==0){
                 progressDialog.show();
-                Log.d("Brikha","No data fetched");
                 SetViewPager();
                 Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
             }
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             }
         } catch (Exception e) {
             progressDialog.show();
-            Log.d("Brikha","No data fetched");
             SetViewPager();
             Toast.makeText(this,"Fetching data for the first time ! Please Wait",Toast.LENGTH_LONG).show();
 
@@ -212,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
+        Log.d("Brikha", String.valueOf(position)+" "+String.valueOf(fragmentNumber));
         AddToHistoryList(position,fragmentNumber);
         if(!twoPane) {
             final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
