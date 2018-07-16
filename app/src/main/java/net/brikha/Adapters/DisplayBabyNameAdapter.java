@@ -92,9 +92,9 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
                                 AdRequest adRequest = new AdRequest.Builder()
                                         .build();
                                 mInterstitial.loadAd(adRequest);
-                                if(test>=3){
-                                    callActivity(v,test,holder.getAdapterPosition());
-                                }
+//                                if(test>=3){
+//                                    callActivity(v,test,holder.getAdapterPosition());
+//                                }
                                 ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
 
                             }
@@ -103,9 +103,9 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
 
                     // If it has not loaded due to any reason simply load the next activity
                     else {
-                        if(test>3){
-                            callActivity(v,test,holder.getAdapterPosition());
-                        }
+//                        if(test>3){
+//                            callActivity(v,test,holder.getAdapterPosition());
+//                        }
                         ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
 
                     }

@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public void OnListSelected(int position,int fragmentNumber) {
         Log.d("Brikha in main", String.valueOf(position)+" "+String.valueOf(fragmentNumber));
         AddToHistoryList(position,fragmentNumber);
-        if(fragmentNumber<3) {
+
             if (!twoPane) {
                 Intent myIntent = new Intent(this, ShowDetailsActivity.class);
                 PassInfo[0] = position;
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 fragmentManager1.beginTransaction().replace(R.id.display_fragment, nameDetailsFragment).commit();
             }
-        }
+
 
     }
 
