@@ -41,7 +41,7 @@ public class NameDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.activity_show_details_name,container,false);
-
+        Log.d("Brikha","We have came here");
         index = 0;
         BabyNameList = new ArrayList<>();
         Bundle b = getArguments();

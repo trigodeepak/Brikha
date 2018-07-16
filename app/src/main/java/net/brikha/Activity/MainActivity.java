@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -68,11 +69,12 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     FemaleFragment Fragment2;
     ViewPager viewPager;
     Toolbar toolbar;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //todo the layout messed up
+        //todo fix the layout issue not working well on the in landscape
         //todo work on ads
 
         babyNameList = new ArrayList<>();
@@ -106,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
             progressDialog.show();
             SetViewPager();
             Toast.makeText(this,"Fetching data for the first time! Please Wait ",Toast.LENGTH_LONG).show();
-
         }
 
 
@@ -120,14 +121,19 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         tabs.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(3);
 
+        fragmentManager = getSupportFragmentManager();
+        ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+        fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+
+
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3863741641307399~5978419919");
-        AdView mAdView = findViewById(R.id.adView);
-
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-
-        mAdView.loadAd(adRequest);
+//        AdView mAdView = findViewById(R.id.adView);
+//
+//
+//        AdRequest adRequest = new AdRequest.Builder()
+//                .build();
+//
+//        mAdView.loadAd(adRequest);
 
     }
 
@@ -175,25 +181,20 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     public void SetViewPager(){
         if(isDataFetch) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
             setupViewPager();
             if (findViewById(R.id.linear_layout_tablet) != null) {
                 twoPane = true;
-                ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("BabyNameList", (Serializable) babyNameList);
                 bundle.putInt("Index", 0);
-
-                fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-
                 NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
                 nameDetailsFragment.setArguments(bundle);
+                Log.d("Brikha","Instain 2 laoyout");
+                fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment, DETAIL).commit();
             } else {
                 twoPane = false;
-                ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-                fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-            }
+                }
             progressDialog.dismiss();
         }
         else{
@@ -207,31 +208,41 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
 
     @Override
     public void OnListSelected(int position,int fragmentNumber) {
-        Log.d("Brikha", String.valueOf(position)+" "+String.valueOf(fragmentNumber));
+        Log.d("Brikha in main", String.valueOf(position)+" "+String.valueOf(fragmentNumber));
         AddToHistoryList(position,fragmentNumber);
-        if(!twoPane) {
-            final Intent myIntent = new Intent(this, ShowDetailsActivity.class);
-            PassInfo[0]= position;
-            PassInfo[1] = fragmentNumber;
-            startActivity(myIntent);
-        }
-        else{
-            Bundle bundle = new Bundle();
-            bundle.putInt("Index",position);
-            switch (fragmentNumber) {
-                case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
-                case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
-                case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;
-                case 5:
-                case 6:
-                case 3:bundle.putSerializable("BabyNameList",(Serializable) SearchingActivity.searchBabyNameList); break;
-                case 4:bundle.putSerializable("BabyNameList",(Serializable) HistoryActivity.historySearchList); break;
+        if(fragmentNumber<3) {
+            if (!twoPane) {
+                Intent myIntent = new Intent(this, ShowDetailsActivity.class);
+                PassInfo[0] = position;
+                PassInfo[1] = fragmentNumber;
+                startActivity(myIntent);
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putInt("Index", position);
+                switch (fragmentNumber) {
+                    case 0:
+                        bundle.putSerializable("BabyNameList", (Serializable) babyNameList);
+                        break;
+                    case 1:
+                        bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList);
+                        break;
+                    case 2:
+                        bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList);
+                        break;
+                    case 5:
+                    case 6:
+                    case 3:
+                        bundle.putSerializable("BabyNameList", (Serializable) SearchingActivity.searchBabyNameList);
+                        break;
+                    case 4:
+                        bundle.putSerializable("BabyNameList", (Serializable) HistoryActivity.historySearchList);
+                        break;
+                }
+                NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
+                nameDetailsFragment.setArguments(bundle);
+                FragmentManager fragmentManager1 = getSupportFragmentManager();
+                fragmentManager1.beginTransaction().replace(R.id.display_fragment, nameDetailsFragment).commit();
             }
-
-            NameDetailsFragment nameDetailsFragment = new NameDetailsFragment();
-            nameDetailsFragment.setArguments(bundle);
-            FragmentManager fragmentManager1 = getSupportFragmentManager();
-            fragmentManager1.beginTransaction().replace(R.id.display_fragment, nameDetailsFragment).commit();
         }
 
     }
@@ -412,10 +423,8 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public void storeToSharedPreferences(){
         if(!isDataFetch) {
             isDataFetch = true;
-            if(viewPager!=null){
-            SetViewPager();}
+            SetViewPager();
         }
-        if(viewPager!=null) {
             SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             try {
@@ -425,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                 e.printStackTrace();
             }
             editor.apply();
-        }
+
     }
 
 }

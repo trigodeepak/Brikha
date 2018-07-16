@@ -1,7 +1,9 @@
 package net.brikha.Activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,6 +24,7 @@ import net.brikha.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.brikha.Activity.MainActivity.PassInfo;
 import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
@@ -36,11 +39,13 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     public final int[] fragNo = new int[1];
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Search activity worked
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
+
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Search");
@@ -50,7 +55,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
         searchBabyNameList = babyNameList;
         OriginalList = babyNameList;
         recyclerView = findViewById(R.id.recycler_view);
@@ -122,6 +126,7 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         mAdapter.updateList(searchBabyNameList);
         mAdapter.notifyDataSetChanged();
         return true;
+
     }
 
     public void changeList(int item){
