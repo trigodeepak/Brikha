@@ -1,7 +1,10 @@
 package net.brikha.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +34,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
     private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
     public static List<BabyName> historySearchList;
+    SearchView searchView;
 
 
     @Override
@@ -69,7 +73,7 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         inflater.inflate(R.menu.history_menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -84,6 +88,32 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
             case R.id.info:
                 Intent intent = new Intent(this,Info_activity.class);
                 startActivity(intent);
+                return true;
+            case R.id.clear:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle("Delete History");
+                builder1.setMessage("Are you sure to delete entire history ?");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                historySearchList = new ArrayList<>();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+                mAdapter.updateList(historySearchList);
+                mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
