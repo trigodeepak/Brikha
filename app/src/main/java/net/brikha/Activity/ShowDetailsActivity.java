@@ -12,6 +12,8 @@ import net.brikha.Fragment.NameDetailsFragment;
 import net.brikha.R;
 
 import java.io.Serializable;
+
+import static net.brikha.Activity.MainActivity.PassInfo;
 import static net.brikha.Fragment.ListOfNamesFragment.babyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
@@ -24,7 +26,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details);
 
-        if(findViewById(R.id.switch_to_main)!=null){
+        if(findViewById(R.id.switch_to_main)!=null && PassInfo[1]<3 ){
             finish();
         }
 
@@ -36,8 +38,8 @@ public class ShowDetailsActivity extends AppCompatActivity {
         }
 
         Bundle bundle = new Bundle();
-        bundle.putInt("Index",MainActivity.PassInfo[0]);
-        switch (MainActivity.PassInfo[1]) {
+        bundle.putInt("Index",PassInfo[0]);
+        switch (PassInfo[1]) {
             case 0:bundle.putSerializable("BabyNameList", (Serializable) babyNameList); break;
             case 1:bundle.putSerializable("BabyNameList", (Serializable) fbabyNameList); break;
             case 2:bundle.putSerializable("BabyNameList", (Serializable) mbabyNameList); break;

@@ -53,7 +53,6 @@ import static net.brikha.Fragment.ListOfNamesFragment.fbabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 import static net.brikha.Fragment.ListOfNamesFragment.mbabyNameList;
 
-
 public class MainActivity extends AppCompatActivity implements ListOfNamesFragment.OnListClickListener{
     final public static String BABY_LIST= "baby_list";
     final public static String HASH_CODE= "hash_set";
@@ -74,15 +73,17 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //todo fix the layout issue not working well on the in landscape
+        //TODO MAKE SEARCH ACTIVITY WORK ON LANDSCAPE.
         //todo work on ads
+        //todo fix the layout issue not working well on the in landscape
+        //todo scrolling fix in the show details
+
 
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
         fbabyNameList = new ArrayList<>();
         historybabyNameList = new ArrayList<>();
         set = new HashSet<>();
-
 
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
@@ -210,7 +211,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public void OnListSelected(int position,int fragmentNumber) {
         Log.d("Brikha in main", String.valueOf(position)+" "+String.valueOf(fragmentNumber));
         AddToHistoryList(position,fragmentNumber);
-
+            if (fragmentNumber>=3 && fragmentNumber<=6){
+                //Todo change the fragment for the showdetails activity
+                Intent myIntent = new Intent(this, ShowDetailsActivity.class);
+                PassInfo[0] = position;
+                PassInfo[1] = fragmentNumber;
+                startActivity(myIntent);
+            }else
             if (!twoPane) {
                 Intent myIntent = new Intent(this, ShowDetailsActivity.class);
                 PassInfo[0] = position;

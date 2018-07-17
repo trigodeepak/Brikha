@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout_tablet"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/list"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_toLeftOf="@+id/secondView"
-        android:layout_toStartOf="@+id/secondView">
+        android:layout_weight="1"
+        >
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/list_fragment"
@@ -57,22 +58,16 @@
         class = "com.example.deepak.brikha.Fragment.NameDetailsFragment"/>
 
     <View
-        android:id="@+id/secondView"
         android:layout_width="1dp"
+        android:layout_weight="0"
         android:layout_height="match_parent"
         android:background="#455A64"/>
-    <LinearLayout
-        android:id="@+id/thirdLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/secondView"
-        android:orientation="vertical"
-        android:layout_toEndOf="@+id/secondView">
+
     <FrameLayout
         android:id="@+id/display_fragment"
         android:layout_width="wrap_content"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        class = "com.example.deepak.brikha.Fragment.NameDetailsFragment"/>
-    </LinearLayout>
+        />
 
-</RelativeLayout>
+</LinearLayout>
