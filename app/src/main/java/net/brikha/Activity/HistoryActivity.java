@@ -1,7 +1,9 @@
 package net.brikha.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -21,11 +23,16 @@ import com.google.android.gms.ads.AdView;
 
 import net.brikha.Adapters.DisplayBabyNameAdapter;
 import net.brikha.Model.BabyName;
+import net.brikha.ObjectSerializer;
 import net.brikha.R;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.brikha.Activity.MainActivity.HISTORYLIST;
+import static net.brikha.Activity.MainActivity.SHARED_PREFS_FILE;
 import static net.brikha.Fragment.ListOfNamesFragment.historybabyNameList;
 
 public class HistoryActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -98,7 +105,18 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
                         "Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                historySearchList = new ArrayList<>();
+                                historybabyNameList.clear();
+                                historySearchList = historybabyNameList;
+                                mAdapter.updateList(historySearchList);
+                                mAdapter.notifyDataSetChanged();
+                                SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                try {
+                                    editor.putString(HISTORYLIST, ObjectSerializer.serialize((Serializable) historybabyNameList));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                editor.apply();
                             }
                         });
 
@@ -109,11 +127,9 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
                                 dialog.cancel();
                             }
                         });
-
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
-                mAdapter.updateList(historySearchList);
-                mAdapter.notifyDataSetChanged();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
