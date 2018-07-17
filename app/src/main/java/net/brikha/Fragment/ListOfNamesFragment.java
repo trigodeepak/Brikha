@@ -31,7 +31,6 @@ public class ListOfNamesFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            //todo make this function in adapter using the fragment .replace
             mListClickListener = (OnListClickListener) context;
         }catch (ClassCastException e){
             throw new ClassCastException(context.toString());

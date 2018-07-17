@@ -79,56 +79,34 @@ public class DisplayBabyNameAdapter extends RecyclerView.Adapter<DisplayBabyName
         mInterstitial.loadAd(request);
 
         final RecyclerView.ViewHolder holder = new MyViewHolder(itemView);
-        try {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    Log.d("Brikha", String.valueOf(holder.getAdapterPosition()+test));
-                    if (mInterstitial.isLoaded()) {
-                        mInterstitial.show();
-                        mInterstitial.setAdListener(new AdListener() {
-                            @Override
-                            public void onAdClosed() {
-                                AdRequest adRequest = new AdRequest.Builder()
-                                        .build();
-                                mInterstitial.loadAd(adRequest);
-//                                if(test>=3){
-//                                    callActivity(v,test,holder.getAdapterPosition());
-//                                }
-                                ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (mInterstitial.isLoaded()) {
+                    mInterstitial.show();
+                    mInterstitial.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdClosed() {
+                            ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
 
-                            }
-                        });
-                    }
-
-                    // If it has not loaded due to any reason simply load the next activity
-                    else {
-//                        if(test>3){
-//                            callActivity(v,test,holder.getAdapterPosition());
-//                        }
-                        ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
-
-                    }
+                            AdRequest adRequest = new AdRequest.Builder()
+                                    .build();
+                            mInterstitial.loadAd(adRequest);
+                        }
+                    });
                 }
+                // If it has not loaded due to any reason simply load the next activity
+                else {
+                    ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
 
-            });
-        }
-        catch (Exception e){
-            Log.e("Brikha", String.valueOf(e.getStackTrace())+" ");
-            ListOfNamesFragment.mListClickListener.OnListSelected(holder.getAdapterPosition(), test);
-        }
+                }
+            }
+
+        });
+
 
         return (MyViewHolder) holder;
     }
-
-    private void callActivity(View v,int fragmentNumber,int position){
-        Log.d("Brikha","Layout coming here");
-        Intent myIntent = new Intent(v.getContext(), ShowDetailsActivity.class);
-        PassInfo[0] = position;
-        PassInfo[1] = fragmentNumber;
-        v.getContext().startActivity(myIntent);
-    }
-
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {

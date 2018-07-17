@@ -1,5 +1,6 @@
 package net.brikha.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import net.brikha.Adapters.DisplayBabyNameAdapter;
 import net.brikha.Model.BabyName;
@@ -35,8 +39,6 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         setContentView(R.layout.activity_searching);
         historySearchList = historybabyNameList;
 
-        //todo this is not working correct
-
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("History");
 
@@ -53,6 +55,12 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mAdView.loadAd(adRequest);
     }
 
     @Override
@@ -72,6 +80,10 @@ public class HistoryActivity extends AppCompatActivity implements SearchView.OnQ
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.info:
+                Intent intent = new Intent(this,Info_activity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

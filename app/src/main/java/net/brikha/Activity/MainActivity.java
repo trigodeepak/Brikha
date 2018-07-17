@@ -73,11 +73,6 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO MAKE SEARCH ACTIVITY WORK ON LANDSCAPE.
-        //todo work on ads
-        //todo fix the layout issue not working well on the in landscape
-        //todo scrolling fix in the show details
-
 
         babyNameList = new ArrayList<>();
         mbabyNameList = new ArrayList<>();
@@ -122,19 +117,13 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
         tabs.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(3);
 
-        fragmentManager = getSupportFragmentManager();
-        ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
-        fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
-
 
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-3863741641307399~5978419919");
-//        AdView mAdView = findViewById(R.id.adView);
-//
-//
-//        AdRequest adRequest = new AdRequest.Builder()
-//                .build();
-//
-//        mAdView.loadAd(adRequest);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mAdView.loadAd(adRequest);
 
     }
 
@@ -193,9 +182,15 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
                 Log.d("Brikha","Instain 2 laoyout");
                 fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().add(R.id.display_fragment, nameDetailsFragment, DETAIL).commit();
+                ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+                fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+
             } else {
                 twoPane = false;
-                }
+                fragmentManager = getSupportFragmentManager();
+                ListOfNamesFragment listOfNamesFragment = new ListOfNamesFragment();
+                fragmentManager.beginTransaction().add(R.id.list_fragment, listOfNamesFragment, LIST_FRAG).commit();
+            }
             progressDialog.dismiss();
         }
         else{
@@ -211,14 +206,7 @@ public class MainActivity extends AppCompatActivity implements ListOfNamesFragme
     public void OnListSelected(int position,int fragmentNumber) {
         Log.d("Brikha in main", String.valueOf(position)+" "+String.valueOf(fragmentNumber));
         AddToHistoryList(position,fragmentNumber);
-            if (fragmentNumber>=3 && fragmentNumber<=6){
-                //Todo change the fragment for the showdetails activity
-                Intent myIntent = new Intent(this, ShowDetailsActivity.class);
-                PassInfo[0] = position;
-                PassInfo[1] = fragmentNumber;
-                startActivity(myIntent);
-            }else
-            if (!twoPane) {
+            if (!twoPane || fragmentNumber>=3 && fragmentNumber<=6) {
                 Intent myIntent = new Intent(this, ShowDetailsActivity.class);
                 PassInfo[0] = position;
                 PassInfo[1] = fragmentNumber;

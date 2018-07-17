@@ -17,6 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import net.brikha.Adapters.DisplayBabyNameAdapter;
 import net.brikha.Model.BabyName;
 import net.brikha.R;
@@ -34,9 +37,10 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
     private RecyclerView recyclerView;
     private DisplayBabyNameAdapter mAdapter;
     Toolbar toolbar;
-    SearchView searchView;
+    public SearchView searchView;
     public static List<BabyName> searchBabyNameList,OriginalList;
     public final int[] fragNo = new int[1];
+    private static String userInput;
 
 
 
@@ -45,7 +49,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         //Search activity worked
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
-
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Search");
@@ -63,6 +66,11 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+
+        mAdView.loadAd(adRequest);
     }
 
     @Override
@@ -115,7 +123,7 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
 
     @Override
     public boolean onQueryTextChange(String s) {
-        String userInput = s.toLowerCase();
+        userInput = s.toLowerCase();
         searchBabyNameList = new ArrayList<>();
         Log.d("Brikha", String.valueOf(OriginalList.size()));
         for(BabyName babyName:OriginalList){
@@ -127,10 +135,12 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         mAdapter.notifyDataSetChanged();
         return true;
 
+
+
+
     }
 
     public void changeList(int item){
-        //todo use any other way to change the test variable or just override some interface have onclick listener
         switch (item){
             case 0: searchBabyNameList = (mbabyNameList); OriginalList = mbabyNameList;break;
             case 1: searchBabyNameList = (fbabyNameList); OriginalList = fbabyNameList;break;
@@ -143,5 +153,6 @@ public class SearchingActivity extends AppCompatActivity implements SearchView.O
         }catch (Exception e){
             e.printStackTrace();
         }
+        searchView.setQuery("", false);
     }
 }
