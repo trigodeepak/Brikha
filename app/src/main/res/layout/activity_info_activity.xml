@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <LinearLayout
         android:layout_height="wrap_content"
@@ -17,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
+
         android:src="@drawable/brikhalogo"
         />
 
@@ -29,10 +28,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="This app shows the baby names for more info visit"
-        android:textSize="30sp"
+        android:text=""
+        android:textSize="25sp"
         />
-
 
      <View
          android:layout_marginTop="20dp"
@@ -40,7 +38,6 @@
          android:layout_height="1dp"
          android:background="#000"
          android:layout_marginBottom="10dp"
-
          />
     <TextView
         android:layout_width="match_parent"
@@ -84,4 +81,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>
